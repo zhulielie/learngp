@@ -1,0 +1,9 @@
+# -*- coding: utf-8 -*-
+# 尝试
+
+def index():
+    user = session.user
+    if user == "midnet":
+        return dict()
+    else:
+        return redirect('/login/index')

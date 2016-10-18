@@ -1,0 +1,123 @@
+{
+  "mode": 0,
+  "OUT_TCP": {
+    "rules": [
+      {
+        "myadr": "1.1.1.1",
+        "myport": "222",
+        "name": "\u6d4b\u8bd5",
+        "hisport": "22",
+        "hisadr": "1.1.1.2"
+      },
+      {
+        "myadr": "1.1.1.1",
+        "myport": "2222",
+        "name": "ceshi2",
+        "hisport": "222",
+        "hisadr": "1.1.1.2"
+      }
+    ],
+    "on": "1"
+  },
+  "IN_FTP": {
+    "rules": [],
+    "on": "1"
+  },
+  "IN_UDP": {
+    "rules": [],
+    "on": "1"
+  },
+  "IN_TCP": {
+    "rules": [],
+    "on": "1"
+  },
+  "OUT_ORA": {
+    "rules": [],
+    "on": "0"
+  },
+  "OUT_FTP": {
+    "rules": [],
+    "on": "1"
+  },
+  "oa": {
+    "interface": [
+      {
+        "netmask": "255.255.255.0",
+        "adr": "192.168.0.2",
+        "name": "em0"
+      },
+      {
+        "netmask": "255.255.255.0",
+        "adr": "1.1.1.1",
+        "name": "em1"
+      }
+    ],
+    "router": [
+      {
+        "netmask": "255.0.0.0",
+        "network": "10.0.0.0",
+        "gateway": "1.1.1.1"
+      }
+    ],
+    "defaultgateway": "192.168.1.1",
+    "hs": {
+      "rules": [
+        {
+          "master": "1",
+          "netmask": "255.255.0.0",
+          "gid": "1",
+          "adr": "2.2.2.2",
+          "on": "1"
+        }
+      ],
+      "on": "1"
+    }
+  },
+  "ia": {
+    "interface": [
+      {
+        "netmask": "255.255.255.0",
+        "adr": "192.168.0.2",
+        "name": "em0"
+      },
+      {
+        "netmask": "255.255.255.0",
+        "adr": "1.1.1.5",
+        "name": "em1"
+      }
+    ],
+    "router": [
+      {
+        "netmask": "255.0.0.0",
+        "network": "10.0.0.0",
+        "gateway": "1.1.1.100"
+      },
+      {
+        "netmask": "255.255.0.0",
+        "network": "172.16.0.0",
+        "gateway": "1.1.1.100"
+      }
+    ],
+    "defaultgateway": "192.168.8.1",
+    "hs": {
+      "rules": [
+        {
+          "master": "0",
+          "netmask": "255.255.255.0",
+          "gid": "11",
+          "adr": "1.1.1.1",
+          "on": "1"
+        }
+      ],
+      "on": "1"
+    }
+  },
+  "IN_ORA": {
+    "rules": [],
+    "on": "0"
+  },
+  "OUT_UDP": {
+    "rules": [],
+    "on": "1"
+  }
+}

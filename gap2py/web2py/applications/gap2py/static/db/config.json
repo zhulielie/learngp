@@ -1,0 +1,85 @@
+{
+  "OUT_TCP": {
+    "rules": [
+      {
+        "myadr": "22.2.2.2",
+        "myport": "22",
+        "name": "1.1.1.1",
+        "hisport": "55",
+        "hisadr": "33.3.3.3"
+      }
+    ],
+    "on": "1"
+  },
+  "IN_FTP": {
+    "rules": [],
+    "on": "0"
+  },
+  "IN_UDP": {
+    "rules": [],
+    "on": "0"
+  },
+  "IN_TCP": {
+    "rules": [],
+    "on": "0"
+  },
+  "OUT_ORA": {
+    "rules": [],
+    "on": "0"
+  },
+  "OUT_FTP": {
+    "rules": [],
+    "on": "0"
+  },
+  "oa": {
+    "interface": [],
+    "router": [],
+    "defaultgateway": "",
+    "hs": {
+      "rules": [],
+      "on": "0"
+    }
+  },
+  "ia": {
+    "interface": [
+      {
+        "netmask": "255.255.255.0",
+        "adr": "123.1.1.1",
+        "name": "em0"
+      },
+      {
+        "netmask": "255.255.255.0",
+        "adr": "1.1.1.1",
+        "name": "em1"
+      }
+    ],
+    "router": [
+      {
+        "netmask": "255.255.255.0",
+        "network": "1.1.1.1",
+        "gateway": "1.1.1.1"
+      }
+    ],
+    "defaultgateway": "",
+    "hs": {
+      "rules": [
+        {
+          "master": "0",
+          "netmask": "255.255.255.0",
+          "gid": "1",
+          "adr": "1.1.1.1",
+          "on": "1"
+        }
+      ],
+      "on": "0"
+    }
+  },
+  "IN_ORA": {
+    "rules": [],
+    "on": "0"
+  },
+  "OUT_UDP": {
+    "rules": [],
+    "on": "0"
+  }
+}

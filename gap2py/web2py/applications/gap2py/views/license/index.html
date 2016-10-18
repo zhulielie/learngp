@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>中网驰云防火墙</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{=URL('static','css/pintuer.css')}}">
+    <style type="text/css">
+
+        body {
+
+            color: #2b2b2b;
+            background-image: url({{=URL('static','img/bg.jpg')}} );
+        }
+    </style>
+    <script src="{{=URL('static','js/jquery.js')}}"></script>
+    <script src="{{=URL('static','js/pintuer.js')}}"></script>
+    <script src="{{=URL('static','js/respond.js')}}"></script>
+    <script type="text/javascript">
+        $(function () {
+            var action = "reload";
+
+            $("#" + action).on('click', function () {
+                //noinspection UnterminatedStatementJS
+                console.log(action);
+                $.get("/lc_reload/", function (result) {
+                });
+            });
+            action = "cancle";
+            $("#" + action).on('click', function () {
+                console.log(action);
+
+                $("#mydialog").hide()
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="layout doc-header fixed">
+    <div class="layout doc-toper">
+        <div class="container">
+            <div class="line">
+                <div class="x8 fadein-left">欢迎使用中网驰云网闸WEB界面</div>
+                <div class="x4 text-right fadein-right">访问<a target="_blank" href="http://midnet.com.cn/">midnet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<br>
+
+<div class="container">
+
+
+    <div class="panel">
+        <div class="panel-head bg-green"><h4>请在下方的输入框中输入License</h4></div>
+        <div class="panel-body" style="height: 600px">
+            <blockquote class="quote border-green doc-quote"><strong>生成码</strong>
+                {{=mash }}
+            </blockquote>
+            <br>
+
+            <div>
+                <form action="" class="" method="post">
+
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <textarea rows="5" class="input" style="height: 300px" name="license" class="radius">{{=cl}}</textarea>
+                    <br>
+                    <button class="button bg-green button-big button-block float-right">提交</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<br>
+
+<div class="container">
+    <div class="alert alert-yellow border border-small border-dashed "><span
+            class="close rotate-hover"></span><strong>
+
+        {{=status}}
+
+    </strong></div>
+    <br>
+    <button class="button button-big bg-green dialogs float-right" data-toggle="click" data-target="#mydialog"
+            data-mask="1"
+            data-width="50%">重启网闸
+    </button>
+
+    <a href="/gap2py/license/index" class="button button-big bg-green dialogs float-left" href="javascript:void(0)">刷新
+    </a>
+
+
+    <div id="mydialog">
+        <div class="dialog">
+            <div class="dialog-head">
+                <span class="close rotate-hover"></span>
+                <strong>确定</strong>
+            </div>
+            <div class="dialog-body">
+                确定要重启网闸吗?
+            </div>
+            <div class="dialog-foot">
+                <button id='cancle' class="button dialog-close" onclick="console.log('cancle')">取消</button>
+                <button id="reload" class="button bg-green dialog-close "
+                        onclick="console.log('reload');$.get('/lc_reload/', function (result) {});">确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
