@@ -5,6 +5,8 @@
 
 $(function () {
 
+    var si1 = '';
+    var si2 = '';
 
     //$.getJSON()
     $.getJSON('dtype', {r: Math.random()}, function (data) {
@@ -12,13 +14,17 @@ $(function () {
         $("#cd").val(data.cd)
         $("#rt").val(data.rt)
         $("#rd").val(data.rd)
+        $("#iad").val(data.iad)
+        $("#oad").val(data.oad)
     })
 
     $("#save").on('click', function () {
 
         var nowt = $("#nct").val()
         var nowd = $("#ncd").val()
-        $.getJSON('sdtype', {r: Math.random(), rt: nowt, rd: nowd}, function (data) {
+        var niad = $("#iad").val()
+        var noad = $("#oad").val()
+        $.getJSON('sdtype', {r: Math.random(), rt: nowt, rd: nowd,iad:niad,oad:noad}, function (data) {
 
             if (data) {
 
@@ -37,6 +43,8 @@ $(function () {
 
 
     })
+
+
 
 
 })

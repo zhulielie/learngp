@@ -1,0 +1,635 @@
+import platform,json
+import time,os,paramiko
+import threading,thread
+from mnLicense import MNLicense
+
+def getplatform():
+    return platform.system() == 'Darwin'
+def dpath():
+
+    tp = "/usr/nc-home/gap2py/web2py/applications/gap2py/static/"
+    if getplatform():
+        tp = "/Users/zhulielie/PycharmProjects/gap2py/web2py/applications/gap2py/static/"
+    return tp
+
+def stop_gap():
+    try:
+        verification_ssh(rsetting(), "shutdown -p now")
+        time.sleep(1)
+        os.system("shutdown -p now")
+    except Exception as e:
+        print e
+
+def something():
+    d = {}
+    d['diskstr'] = '''df -h | grep replace | head -n 1 | awk '{print $5}' | tr -s " "'''
+    d['cpugetstr'] = '''vmstat | sed -n '3p' | awk '{print $17}' | tr -s " "'''
+    d['memstr'] = '''vmstat | sed -n '3p' | awk '{print $5}' | tr -s " "'''
+    d['uptimestr'] = '''uptime | awk '{print $1" "$2" "$3$4$5}' | tr -s " "'''
+    return d
+
+
+def changepass(passw):
+    if passw:
+        if passw['oldpass'] and passw['newpass1'] and passw['newpass2']:
+            if passw['newpass1'] == passw['newpass2']:
+                if len(passw['newpass1']) >= 6:
+                    try:
+                        s = getusers()
+                        import hashlib
+                        m2 = hashlib.md5()
+                        m2.update(passw['newpass1'])
+                        mold = hashlib.md5()
+                        mold.update(passw['oldpass'])
+                        if mold.hexdigest() == s['password']:
+                            s['password'] = m2.hexdigest()
+                            setusers(s)
+
+                    except Exception as e:
+                        print e
+
+
+def getoalog():
+    s = {}
+    if getplatform():
+        try:
+            f = open("%s%s" % (dpath(), "db/log.json"), "r")
+            s = f.read()
+        except:
+            pass
+        finally:
+            f.close()
+    else:
+        oacontent = "dmesg -a"
+        try:
+            l = verification_ssh(rsetting(), oacontent)
+            s = (l.split('\n'))[1:-1]
+
+
+        except Exception as e:
+            print e
+
+    return s
+def getlog():
+    s = {}
+    if getplatform():
+        try:
+            f = open("%s%s" % (dpath(), "db/log.json"), "r")
+            s = f.read()
+        except:
+            pass
+        finally:
+            f.close()
+    else:
+        try:
+            import commands
+            l = commands.getoutput("dmesg -a")
+            s = (l.split('\n'))
+        except Exception as e:
+            print e
+
+    return s
+
+
+def restart_gap():
+    try:
+        verification_ssh(rsetting(), "shutdown -r now")
+        time.sleep(1)
+        os.system("shutdown -r now")
+    except Exception as e:
+        print e
+
+
+
+
+
+def license_passed():
+    return checkthelicense(getlicense())
+def rsetting():
+    s = {}
+    s['host'] = '2.2.2.2'
+    s['port'] = 51222
+    s['username'] = 'gap'
+    s['password'] = 'midnetgap'
+    s['root_pwd'] = 'midnet66'
+
+    return s
+
+def getlicense():
+    s = {}
+    try:
+        f = open("%s%s" % (dpath(), "db/license.json"), "r");
+        s = json.load(f)
+
+    except Exception as e:
+        print e
+    finally:
+        f.close()
+    if s.get('license'):
+        return s['license']
+    else:
+        return ''
+
+def getmash():
+    key = ["9878*(&^^&)0LLIu(*&^))#$@!KJLKJj", "8midnet8", b'1815122959500519']
+    obj = MNLicense(key)
+    return obj.creatmash(obj.creatdict())
+
+
+
+
+def checkthelicense(ol):
+    key = ["9878*(&^^&)0LLIu(*&^))#$@!KJLKJj", "8midnet8", b'1815122959500519']
+    obj = MNLicense(key)
+    return obj.checklicense(ol)
+
+
+
+def save_license(license):
+    s = False
+    try:
+        f = open("%s%s" % (dpath(), "db/license.json"), "w");
+        json.dump({"license": license}, f)
+        s = True
+    except:
+        pass
+    finally:
+        f.close()
+    return s
+
+
+def setusers(users):
+    try:
+        f = open("%s%s" % (dpath(), "db/user.json"), "w");
+        s = json.dump(users, f)
+        flag = True
+    except:
+        flag = False
+    finally:
+        f.close()
+
+    return flag
+
+def getdtype():
+    s = {}
+    try:
+        f = open("%s%s" % (dpath(), "db/d.json"), "r");
+        s = json.load(f)
+    except Exception as e:
+        print e
+
+    finally:
+        f.close()
+
+    return s
+
+
+def setbootcfg(d):
+    os.system('boot0cfg -B -v -o noupdate -t 185 ad%s' % d['iad'])
+    verification_ssh(rsetting(), 'boot0cfg -B -v -o noupdate -t 185 ada%s' % d['oad'])
+
+def setdtype(d):
+    try:
+        f = open("%s%s" % (dpath(), "db/d.json"), "w");
+        s = json.dump(d, f)
+        flag = True
+    except:
+        flag = False
+    finally:
+        f.close()
+
+    return flag
+
+def getusers():
+    s = {}
+    try:
+        f = open("%s%s" % (dpath(), "db/user.json"), "r");
+        s = json.load(f)
+    except Exception as e:
+        print e
+
+    finally:
+        f.close()
+
+    return s
+
+
+
+
+
+def verification_ssh(d,cmd):
+
+    host = d['host']
+    username = d['username']
+    password = d['password']
+    port = d['port']
+    root_pwd = d['root_pwd']
+
+    s = paramiko.SSHClient()
+    s.load_system_host_keys()
+    s.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    s.connect(hostname=host, port=int(port), username=username, password=password)
+    if username != 'root':
+        ssh = s.invoke_shell()
+        time.sleep(0.1)
+        ssh.send('su - \n')
+        buff = ''
+        while not buff.endswith('Password:'):
+            resp = ssh.recv(9999)
+            buff += resp
+        ssh.send(root_pwd)
+        ssh.send('\n')
+        buff = ''
+        while not buff.endswith('# '):
+            resp = ssh.recv(9999)
+            buff += resp
+        ssh.send(cmd)
+        ssh.send('\n')
+        buff = ''
+        while not buff.endswith('# '):
+            resp = ssh.recv(9999)
+            buff += resp
+        s.close()
+        result = buff
+    else:
+        stdin, stdout, stderr = s.exec_command(cmd)
+        result = stdout.read()
+        s.close()
+    return result
+
+
+def setconfig(config):
+    try:
+        f = open("%s%s" % (dpath(), "db/config.json"), "w");
+        json.dump(config, f)
+        try:
+            dt = getdtype()
+            config['dt'] = dt
+            threads = []
+            threads.append(threading.Thread(target=write_ia_rcconf,args=(config['ia'],)))
+
+            threads.append(threading.Thread(target=write_oa_rcconf,args=(config['oa'],)))
+
+            threads.append(threading.Thread(target=write_ia_interfaces,args=(config['ia'],)))
+
+            threads.append(threading.Thread(target=write_oa_interfaces,args=(config['oa'],)))
+
+            threads.append(threading.Thread(target=write_ia_router,args=(config['ia'],)))
+
+            threads.append(threading.Thread(target=write_oa_router,args=(config['oa'],)))
+
+            threads.append(threading.Thread(target=write_ia_carp,args=(config['ia']['hs'],)))
+
+            threads.append(threading.Thread(target=write_oa_carp,args=(config['oa']['hs'],)))
+
+            threads.append(threading.Thread(target=write_ia_sox,args=(config,)))
+
+            threads.append(threading.Thread(target=write_oa_sox,args=(config,)))
+
+
+            for t in threads:
+                t.start()
+
+            try:
+                n = open("%s%s" % (dpath(), "db/needrestart"), 'w')
+            except Exception as e:
+                print e
+            finally:
+                n.close()
+        except Exception as e:
+            print e
+
+        flag = True
+    except Exception as e:
+        print e
+        flag = False
+    finally:
+        f.close()
+
+    return flag
+
+
+
+def write_oa_rcconf(config):
+    if getplatform():
+        tmp_rc = open("%s%s" % (dpath(), "db/oa/rc.conf"), "w")
+    else:
+        tmp_rc = '/etc/rc.conf'
+
+    oacontent = '''echo 'sshd_enable="YES"' > %s;''' % tmp_rc
+    oacontent += '''echo 'update_motd="NO"' >> %s;''' % tmp_rc
+    oacontent += '''echo 'gateway_enable="YES"' >> %s;''' % tmp_rc
+    oacontent += '''echo 'syslogd_enable="YES"' >> %s;''' % tmp_rc
+    oacontent += '''echo 'syslogd_flags="-ss" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'sendmail_enable="NONE" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'sendmail_submit_enable="NO" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'sendmail_outbound_enable="NO" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'sendmail_msp_queue_enable="NO" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'hostname="MNOA"' >> %s;''' % tmp_rc
+
+
+    if getplatform():
+        tmp_rc.write(oacontent)
+        tmp_rc.close()
+    else:
+        try:
+            verification_ssh(rsetting(), oacontent)
+        except Exception as e:
+            print e
+
+
+def write_oa_interfaces(config):
+    if getplatform():
+        tmp_rc = open("%s%s" % (dpath(), "db/oa/interfaces.conf"), "w")
+    else:
+        tmp_rc = '/etc/interfaces.conf'
+    oacontent = 'echo '' > %s;' % tmp_rc
+    for i in config['interface']:
+        if 'alias' in i['name']:
+            intname = i['name'].split('_alias')
+            oacontent += '''echo 'ifconfig %s inet %s netmask %s alias' >> %s;''' % (
+                intname[0], i['adr'], i['netmask'], tmp_rc)
+        else:
+            oacontent += '''echo 'ifconfig %s inet %s netmask %s' >> %s;''' % (
+            i['name'], i['adr'], i['netmask'], tmp_rc)
+    if getplatform():
+        tmp_rc.write(oacontent)
+        tmp_rc.close()
+    else:
+        try:
+            verification_ssh(rsetting(), oacontent)
+        except Exception as e:
+            print e
+
+
+def write_oa_router(config):
+    if getplatform():
+        tmp_rc = open("%s%s" % (dpath(), "db/oa/router.conf"), "w")
+    else:
+        tmp_rc = '/etc/router.conf'
+
+
+
+    oacontent = '''echo '' > /etc/router.conf;\n'''
+    for i in config['router']:
+        oacontent += '''echo 'route add %s %s %s' >> %s;\n''' % (
+            i['network'], i['gateway'], i['netmask'],tmp_rc )
+
+    if config['defaultgateway']:
+        oacontent += '''route add default %s >> %s;''' % (config['defaultgateway'], tmp_rc)
+
+    if getplatform():
+        try:
+            tmp_rc.write(oacontent)
+        except Exception as e:
+            print e
+        finally:
+            tmp_rc.close()
+    else:
+
+        try:
+            verification_ssh(rsetting(), oacontent)
+        except Exception as e:
+            print e
+
+
+def write_oa_carp(config):
+    oacontent = ''
+    begin = True
+    # for i in config['rules']:
+
+    if getplatform():
+        tmp_rc = open("%s%s" % (dpath(), "db/oa/carp.conf"), "w")
+
+    if config['on'] == '0' or not config['rules']:
+        oacontent = '''echo '' > /etc/carp.conf;'''
+    else:
+        for i in config['rules']:
+            if (i['on'] == '1'):
+                oacontent += '''echo 'ifconfig carp%s create %s netmask %s vhid %s advskew %s' %s /etc/carp.conf; ''' % (
+                    i['gid'], i['adr'], i['netmask'], i['gid'], '100' if i['master'] == '1' else '101',
+                    '> ' if begin else '>>')
+                begin = False
+    try:
+        if getplatform():
+            tmp_rc.write(oacontent)
+        else:
+            verification_ssh(rsetting(), oacontent)
+    except Exception as e:
+        print "write oa carp error:%s" % str(e)
+
+
+def write_oa_sox(config):
+    if getplatform():
+        tmp_sox = open("%s%s" % (dpath(), "db/oa/nsox.cf"), "w")
+    else:
+        tmp_sox = '/usr/nc-home/sox/nsox.cf'
+
+
+    flag_type = config['dt']['rd']
+    oacontent = ''
+    if flag_type == 2:
+        # jinzhuru
+        if config["IN_TCP"]['on'] == '1':
+            oacontent += '''echo 'map xint 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
+            for rule in config['IN_TCP']['rules']:
+                oacontent += '''echo 'rdr lan1 %s/32 port %s -> 2.2.2.1 port %s' >>%s;''' % (
+                    rule['myadr'], rule['myport'], rule['myport'], tmp_sox)
+
+
+
+    elif flag_type == 1:
+        # jinzhunchu
+
+        if config["OUT_TCP"]['on'] == '1':
+            oacontent += '''echo 'map lan1 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
+            for rule in config['OUT_TCP']['rules']:
+                oacontent += '''echo 'rdr xint 0.0.0.0/0 port %s -> %s port %s' >>%s;''' % (
+                    rule['myport'], rule['hisadr'], rule['hisport'], tmp_sox)
+    else:
+        # zhunru he zhunchu
+        if config["IN_TCP"]['on'] == '1':
+
+            oacontent += '''echo 'map xint 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
+            for rule in config['IN_TCP']['rules']:
+                oacontent += '''echo 'rdr lan1 %s/32 port %s -> 2.2.2.1 port %s' >>%s;''' % (
+                    rule['myadr'], rule['myport'], rule['myport'], tmp_sox)
+
+        if config["OUT_TCP"]['on'] == '1':
+            oacontent += '''echo 'map lan1 0.0.0.0/0 -> 0/32' %s %s;''' % (
+            ">>" if config["IN_TCP"]['on'] == '1' else ">", tmp_sox)
+            for rule in config['OUT_TCP']['rules']:
+                oacontent += '''echo 'rdr xint 0.0.0.0/0 port %s -> %s port %s' >>%s;''' % (
+                    rule['myport'], rule['hisadr'], rule['hisport'], tmp_sox)
+
+
+
+    if getplatform():
+        tmp_sox.write(oacontent)
+        tmp_sox.close()
+    else:
+        try:
+            verification_ssh(rsetting(), oacontent)
+        except Exception as e:
+            print e
+
+
+def write_ia_rcconf(config):
+    try:
+        if getplatform():
+            bsdfile_rcconf = open("%s%s" % (dpath(), "db/ia/rc.conf"), "w")
+        else:
+            bsdfile_rcconf = open("/etc/rc.conf", "w")
+        iacontent = 'sshd_enable="YES"\n'
+        iacontent += 'update_motd="NO"\n'
+        iacontent += 'gateway_enable="YES"\n'
+        iacontent += 'fsck_enable="YES"\n'  # add
+        iacontent += 'syslogd_enable="YES"\n'
+        iacontent += 'syslogd_flags="-ss"\n'
+        iacontent += 'sendmail_enable="NONE"\n'
+        iacontent += 'sendmail_submit_enable="NO"\n'
+        iacontent += 'sendmail_outbound_enable="NO"\n'
+        iacontent += 'sendmail_msp_queue_enable="NO"\n'
+        iacontent += 'hostname="MNIA"\n'
+        bsdfile_rcconf.write(iacontent)
+        bsdfile_rcconf.close()
+        flag = True
+    except Exception as e:
+        print e
+        flag = False
+    finally:
+        if bsdfile_rcconf:
+            bsdfile_rcconf.close()
+    return flag
+
+
+def write_ia_interfaces(config):
+    try:
+        if getplatform():
+            bsdfile_rcconf = open("%s%s" % (dpath(), "db/ia/interfaces.conf"), "w")
+        else:
+            bsdfile_rcconf = open("/etc/interfaces.conf", "w")
+        iacontent = ''
+        for i in config['interface']:
+            if 'alias' in i['name']:
+                intnames = i['name'].split('_alias')
+                iacontent += 'ifconfig %s inet %s netmask %s alias\n' % (intnames[0], i['adr'], i['netmask'])
+            else:
+                iacontent += 'ifconfig %s inet %s netmask %s\n' % (i['name'], i['adr'], i['netmask'])
+        bsdfile_rcconf.write(iacontent)
+        bsdfile_rcconf.close()
+        flag = True
+    except Exception as e:
+        print e
+        flag = False
+    finally:
+        if bsdfile_rcconf:
+            bsdfile_rcconf.close()
+    return flag
+
+
+def write_ia_router(config):
+    try:
+        if getplatform():
+            bsdfile_router = open("%s%s" % (dpath(), "db/ia/router.conf"), "w")
+        else:
+            bsdfile_router = open("/etc/router.conf", "w")
+        iacontent = ''
+        for i in config['router']:
+            iacontent += 'route add %s %s %s\n' % (i['network'], i['gateway'], i['netmask'])
+        if config['defaultgateway']:
+            iacontent += 'route add default %s\n' % config['defaultgateway']
+
+        bsdfile_router.write(iacontent)
+        flag = True
+    except Exception as e:
+        print e
+        flag = False
+    finally:
+        bsdfile_router.close()
+    return flag
+
+
+def write_ia_carp(config):
+    try:
+        if getplatform():
+            bsdfile_router = open("%s%s" % (dpath(), "db/ia/carp.conf"), "w")
+        else:
+            bsdfile_router = open("/etc/carp.conf", "w")
+        iacontent = ''
+        if config['on'] == '1':
+            for i in config['rules']:
+                iacontent += 'ifconfig carp%s create %s netmask %s vhid %s advskew %s\n' % (
+                    i['gid'], i['adr'], i['netmask'], i['gid'], '100' if i['master'] == '1' else '101',)
+            bsdfile_router.write(iacontent)
+        flag = True
+    except Exception as e:
+        flag = False
+        print "Write ia carp error :%s" % str(e)
+    finally:
+        bsdfile_router.close()
+    return flag
+
+
+def write_ia_sox(config):
+    try:
+        if getplatform():
+            bsdfile_router = open("%s%s" % (dpath(), "db/ia/nsox.cf"), "w")
+        else:
+            print config['dt']['rt']
+            if config['dt']['rt'] == 0:
+
+                bsdfile_router = open("/usr/nc-home/sox/nsox.cf", "w")
+            else:
+                bsdfile_router = open("/usr/nc-home/sox/sox.conf", "w")
+
+
+        iacontent = ''
+        flag_type = config['dt']['rd']
+
+        if flag_type == 2:
+            # jinzhunru
+            if config["IN_TCP"]['on'] == '1':
+                iacontent += 'map lan1 0.0.0.0/0 -> 0/32\n'
+
+                for rule in config['IN_TCP']['rules']:
+                    iacontent += '''rdr xint 0.0.0.0/0 port %s -> %s port %s\n''' % (
+                        rule['myport'], rule['hisadr'], rule['hisport'])
+
+        elif flag_type == 1:
+            # jinzhunchu
+
+            if config["OUT_TCP"]['on'] == '1':
+                iacontent += 'map xint 0.0.0.0/0 -> 0/32\n'
+
+                for rule in config['OUT_TCP']['rules']:
+                    iacontent += '''rdr lan1 %s/32 port %s -> 2.2.2.2 port %s\n''' % (
+                        rule['myadr'], rule['myport'], rule['myport'])
+
+
+
+        else:
+            # zhunru he zhunchu
+
+            if config["OUT_TCP"]['on'] == '1':
+                iacontent += 'map xint 0.0.0.0/0 -> 0/32\n'
+                for rule in config['OUT_TCP']['rules']:
+                    iacontent += '''rdr lan1 %s/32 port %s -> 2.2.2.2 port %s\n''' % (
+                        rule['myadr'], rule['myport'], rule['myport'])
+
+            if config["IN_TCP"]['on'] == '1':
+
+                iacontent += 'map lan1 0.0.0.0/0 -> 0/32\n'
+                for rule in config['IN_TCP']['rules']:
+                    iacontent += '''rdr xint 0.0.0.0/0 port %s -> %s port %s\n''' % (
+                        rule['myport'], rule['hisadr'], rule['hisport'])
+
+
+        bsdfile_router.write(iacontent)
+        flag = True
+    except Exception as e:
+        print e
+        flag = False
+    finally:
+        bsdfile_router.close()
+    return flag

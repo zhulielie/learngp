@@ -1,7 +1,7 @@
 import platform,json
-import time,os
+import time,os,paramiko
 import threading,thread
-
+from mnLicense import MNLicense
 
 def getplatform():
     return platform.system() == 'Darwin'
@@ -12,7 +12,99 @@ def dpath():
         tp = "/Users/zhulielie/PycharmProjects/gap2py/web2py/applications/gap2py/static/"
     return tp
 
+def stop_gap():
+    try:
+        verification_ssh(rsetting(), "shutdown -p now")
+        time.sleep(1)
+        os.system("shutdown -p now")
+    except Exception as e:
+        print e
 
+def something():
+    d = {}
+    d['diskstr'] = '''df -h | grep replace | head -n 1 | awk '{print $5}' | tr -s " "'''
+    d['cpugetstr'] = '''vmstat | sed -n '3p' | awk '{print $17}' | tr -s " "'''
+    d['memstr'] = '''vmstat | sed -n '3p' | awk '{print $5}' | tr -s " "'''
+    d['uptimestr'] = '''uptime | awk '{print $1" "$2" "$3$4$5}' | tr -s " "'''
+    return d
+
+
+def changepass(passw):
+    if passw:
+        if passw['oldpass'] and passw['newpass1'] and passw['newpass2']:
+            if passw['newpass1'] == passw['newpass2']:
+                if len(passw['newpass1']) >= 6:
+                    try:
+                        s = getusers()
+                        import hashlib
+                        m2 = hashlib.md5()
+                        m2.update(passw['newpass1'])
+                        mold = hashlib.md5()
+                        mold.update(passw['oldpass'])
+                        if mold.hexdigest() == s['password']:
+                            s['password'] = m2.hexdigest()
+                            setusers(s)
+
+                    except Exception as e:
+                        print e
+
+
+def getoalog():
+    s = {}
+    if getplatform():
+        try:
+            f = open("%s%s" % (dpath(), "db/log.json"), "r")
+            s = f.read()
+        except:
+            pass
+        finally:
+            f.close()
+    else:
+        oacontent = "dmesg -a"
+        try:
+            l = verification_ssh(rsetting(), oacontent)
+            s = (l.split('\n'))[1:-1]
+
+
+        except Exception as e:
+            print e
+
+    return s
+def getlog():
+    s = {}
+    if getplatform():
+        try:
+            f = open("%s%s" % (dpath(), "db/log.json"), "r")
+            s = f.read()
+        except:
+            pass
+        finally:
+            f.close()
+    else:
+        try:
+            import commands
+            l = commands.getoutput("dmesg -a")
+            s = (l.split('\n'))
+        except Exception as e:
+            print e
+
+    return s
+
+
+def restart_gap():
+    try:
+        verification_ssh(rsetting(), "shutdown -r now")
+        time.sleep(1)
+        os.system("shutdown -r now")
+    except Exception as e:
+        print e
+
+
+
+
+
+def license_passed():
+    return checkthelicense(getlicense())
 def rsetting():
     s = {}
     s['host'] = '2.2.2.2'
@@ -21,6 +113,48 @@ def rsetting():
     s['password'] = 'midnetgap'
     s['root_pwd'] = 'midnet66'
 
+    return s
+
+def getlicense():
+    s = {}
+    try:
+        f = open("%s%s" % (dpath(), "db/license.json"), "r");
+        s = json.load(f)
+
+    except Exception as e:
+        print e
+    finally:
+        f.close()
+    if s.get('license'):
+        return s['license']
+    else:
+        return ''
+
+def getmash():
+    key = ["9878*(&^^&)0LLIu(*&^))#$@!KJLKJj", "8midnet8", b'1815122959500519']
+    obj = MNLicense(key)
+    return obj.creatmash(obj.creatdict())
+
+
+
+
+def checkthelicense(ol):
+    key = ["9878*(&^^&)0LLIu(*&^))#$@!KJLKJj", "8midnet8", b'1815122959500519']
+    obj = MNLicense(key)
+    return obj.checklicense(ol)
+
+
+
+def save_license(license):
+    s = False
+    try:
+        f = open("%s%s" % (dpath(), "db/license.json"), "w");
+        json.dump({"license": license}, f)
+        s = True
+    except:
+        pass
+    finally:
+        f.close()
     return s
 
 
@@ -52,7 +186,7 @@ def getdtype():
 
 def setbootcfg(d):
     os.system('boot0cfg -B -v -o noupdate -t 185 ad%s' % d['iad'])
-    verification_ssh(rsetting(), 'boot0cfg -B -v -o noupdate -t 185 ad%s' % d['oad'])
+    verification_ssh(rsetting(), 'boot0cfg -B -v -o noupdate -t 185 ada%s' % d['oad'])
 
 def setdtype(d):
     try:
@@ -80,7 +214,7 @@ def getusers():
     return s
 
 
-import paramiko, time
+
 
 
 def verification_ssh(d,cmd):
@@ -122,8 +256,7 @@ def verification_ssh(d,cmd):
         result = stdout.read()
         s.close()
     return result
-def license_passed():
-    return False
+
 
 def setconfig(config):
     try:
@@ -137,13 +270,13 @@ def setconfig(config):
 
             threads.append(threading.Thread(target=write_oa_rcconf,args=(config['oa'],)))
 
-            threads.append(threading.Thread(target=write_ia_rclocal,args=(config,)))
+            threads.append(threading.Thread(target=write_ia_interfaces,args=(config['ia'],)))
 
-            threads.append(threading.Thread(target=write_oa_rclocal,args=(config,)))
+            threads.append(threading.Thread(target=write_oa_interfaces,args=(config['oa'],)))
 
-            threads.append(threading.Thread(target=write_ia_router,args=(config['ia']['router'],)))
+            threads.append(threading.Thread(target=write_ia_router,args=(config['ia'],)))
 
-            threads.append(threading.Thread(target=write_oa_router,args=(config['oa']['router'],)))
+            threads.append(threading.Thread(target=write_oa_router,args=(config['oa'],)))
 
             threads.append(threading.Thread(target=write_ia_carp,args=(config['ia']['hs'],)))
 
@@ -154,19 +287,9 @@ def setconfig(config):
             threads.append(threading.Thread(target=write_oa_sox,args=(config,)))
 
 
-            if dt['rt'] == 1:
-
-                threads.append(threading.Thread(target=write_ia_detail,args=(config,)))
-
-                threads.append(threading.Thread(target=write_oa_detail,args=(config,)))
-
-
             for t in threads:
                 t.start()
 
-
-
-            verification_ssh(rsetting(),'/usr/nc-home/bin/UpdateDisk')
             try:
                 n = open("%s%s" % (dpath(), "db/needrestart"), 'w')
             except Exception as e:
@@ -185,71 +308,6 @@ def setconfig(config):
 
     return flag
 
-# def setconfig(config):
-#     try:
-#         f = open("%s%s" % (dpath(), "db/config.json"), "w");
-#         json.dump(config, f)
-#         try:
-#             dt = getdtype()
-#             config['dt'] = dt
-#
-#             write_ia_rcconf(config['ia'])
-#             print 'write_ia_rcconf over'
-#             write_oa_rcconf(config['oa'])
-#             print 'write_oa_rcconf over'
-#             write_ia_rclocal(config)
-#
-#             print  'write_ia_rclocal over'
-#             write_oa_rclocal(config)
-#             print  'write_oa_rclocal over'
-#             write_ia_router(config['ia']['router'])
-#             print  'write_ia_router over'
-#             write_oa_router(config['oa']['router'])
-#             print  'write_oa_router over'
-#             write_ia_carp(config['ia']['hs'])
-#             print  'write_ia_carp over'
-#             write_oa_carp(config['oa']['hs'])
-#             print  'write_oa_carp over'
-#             write_ia_sox(config)
-#             print  'write_ia_sox over'
-#             write_oa_sox(config)
-#             print  'write_oa_sox over'
-#             if dt['rt'] == 1:
-#                 write_ia_detail(config)
-#                 print  'write_ia_detail over'
-#                 write_oa_detail(config)
-#                 print  'write_oa_detail over'
-#
-#             verification_ssh(rsetting(),'/usr/nc-home/bin/UpdateDisk')
-#             try:
-#                 n = open("%s%s" % (dpath(), "db/needrestart"), 'w')
-#             except Exception as e:
-#                 print e
-#             finally:
-#                 n.close()
-#         except Exception as e:
-#             print e
-#
-#         flag = True
-#     except Exception as e:
-#         print e
-#         flag = False
-#     finally:
-#         f.close()
-#
-#     return flag
-
-def write_oa_detail(config):
-    if config['dt']['rd'] == 2:
-        rs = ["IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]
-    elif config['dt']['rd'] == 1:
-        rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA"]
-    else:
-        rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA", "IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]
-    for i in rs:
-        if config[i]['on'] == '1':
-            write_oarule(i, config[i]['rules'])
-
 
 
 def write_oa_rcconf(config):
@@ -263,14 +321,13 @@ def write_oa_rcconf(config):
     oacontent += '''echo 'gateway_enable="YES"' >> %s;''' % tmp_rc
     oacontent += '''echo 'syslogd_enable="YES"' >> %s;''' % tmp_rc
     oacontent += '''echo 'syslogd_flags="-ss" ' >> %s;''' % tmp_rc
-    if config['defaultgateway']:
-        oacontent += '''echo 'defaultrouter="%s"' >> %s;''' % (config['defaultgateway'], tmp_rc)
-    oacontent += '''echo 'hostname="MFOA"' >> %s;''' % tmp_rc
-    for i in config['interface']:
-        oacontent += '''echo 'ifconfig_%s="inet %s netmask %s"' >> %s;''' % (
-            i['name'], i['adr'], i['netmask'], tmp_rc)
-    oacontent += '''echo 'ifconfig_em4="inet 2.2.2.2 netmask 255.255.255.0"' >> %s;''' % tmp_rc
-    oacontent += '''echo 'ifconfig_em5="inet 5.5.5.2 netmask 255.255.255.0"' >> %s;''' % tmp_rc
+    oacontent += '''echo 'sendmail_enable="NONE" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'sendmail_submit_enable="NO" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'sendmail_outbound_enable="NO" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'sendmail_msp_queue_enable="NO" ' >> %s;''' % tmp_rc
+    oacontent += '''echo 'hostname="MNOA"' >> %s;''' % tmp_rc
+
+
     if getplatform():
         tmp_rc.write(oacontent)
         tmp_rc.close()
@@ -281,33 +338,20 @@ def write_oa_rcconf(config):
             print e
 
 
-def write_oa_rclocal(config):
+def write_oa_interfaces(config):
     if getplatform():
-        tmp_rc = open("%s%s" % (dpath(), "db/oa/rc.local"), "w")
+        tmp_rc = open("%s%s" % (dpath(), "db/oa/interfaces.conf"), "w")
     else:
-        tmp_rc = '/etc/rc.local'
-    adx = str(config['dt']['oad'])
-
-    oacontent = '''echo 'fsck_ufs -y /dev/ad%ss2 >/dev/null' > %s;''' % (adx, tmp_rc)
-    oacontent += '''echo 'mount /dev/ad%ss2 /usr/nc-home' >> %s;''' % (adx, tmp_rc)
-    oacontent += '''echo 'if [ -f /usr/nc-home/baktgz/patch.tgz ]; then' >> %s;''' % (tmp_rc)
-    oacontent += '''echo '	tar xzfP /usr/nc-home/baktgz/patch.tgz' >> %s;''' % (tmp_rc)
-    oacontent += '''echo '	rm /usr/nc-home/baktgz/patch.tgz' >> %s;''' % (tmp_rc)
-    oacontent += '''echo 'fi' >> %s;''' % (tmp_rc)
-    oacontent += '''echo 'ifconfig em5 up' >> %s;''' % (tmp_rc)
-    oacontent += '''echo 'sleep 2' >> %s;''' % (tmp_rc)
-    oacontent += '''echo 'ifconfig em4 up' >> %s;''' % (tmp_rc)
-    oacontent += '''echo 'sleep 2' >> %s;''' % (tmp_rc)
-    oacontent += '''echo 'sh /etc/router.conf' >> %s;''' % (tmp_rc)
-    oacontent += '''echo 'sh /etc/carp.conf' >> %s;''' % (tmp_rc)
-    if config['dt']['rt'] == 1:
-        oacontent += '''echo 'sysctl -w hw.owd_recvif=em5' >> %s;''' % (tmp_rc)
-        oacontent += '''echo 'sysctl -w hw.owd_sendif=em5' >> %s;''' % (tmp_rc)
-        oacontent += '''echo 'cd /usr/nc-home/bin/ && ./prog.sh &' >> %s;''' % (tmp_rc)
-        oacontent += '''echo 'cd /usr/nc-home/socks && ./sockd -D -f socks.conf' >> %s;''' % (tmp_rc)
-    else:
-        oacontent += '''echo 'ipnat -CF -f /usr/nc-home/sox/nsox.cf' >> %s;''' % (tmp_rc)
-
+        tmp_rc = '/etc/interfaces.conf'
+    oacontent = 'echo '' > %s;' % tmp_rc
+    for i in config['interface']:
+        if 'alias' in i['name']:
+            intname = i['name'].split('_alias')
+            oacontent += '''echo 'ifconfig %s inet %s netmask %s alias' >> %s;''' % (
+                intname[0], i['adr'], i['netmask'], tmp_rc)
+        else:
+            oacontent += '''echo 'ifconfig %s inet %s netmask %s' >> %s;''' % (
+            i['name'], i['adr'], i['netmask'], tmp_rc)
     if getplatform():
         tmp_rc.write(oacontent)
         tmp_rc.close()
@@ -324,15 +368,16 @@ def write_oa_router(config):
     else:
         tmp_rc = '/etc/router.conf'
 
-    oacontent = ''
-    begin = True
 
-    for i in config:
-        oacontent += '''echo 'route add %s %s %s' %s /etc/router.conf;\n''' % (
-            i['network'], i['gateway'], i['netmask'], '> ' if begin else '>>')
-        begin = False
-    if not config:
-        oacontent = '''echo '' > /etc/router.conf;\n'''
+
+    oacontent = '''echo '' > %s;\n''' % tmp_rc
+    for i in config['router']:
+        oacontent += '''echo 'route add %s %s %s' >> %s;\n''' % (
+            i['network'], i['gateway'], i['netmask'],tmp_rc )
+
+    if config['defaultgateway']:
+        oacontent += '''echo 'route add default %s' >> %s;''' % (config['defaultgateway'], tmp_rc)
+
     if getplatform():
         try:
             tmp_rc.write(oacontent)
@@ -364,7 +409,6 @@ def write_oa_carp(config):
                 oacontent += '''echo 'ifconfig carp%s create %s netmask %s vhid %s advskew %s' %s /etc/carp.conf; ''' % (
                     i['gid'], i['adr'], i['netmask'], i['gid'], '100' if i['master'] == '1' else '101',
                     '> ' if begin else '>>')
-
                 begin = False
     try:
         if getplatform():
@@ -377,80 +421,54 @@ def write_oa_carp(config):
 
 def write_oa_sox(config):
     if getplatform():
-        tmp_sox = open("%s%s" % (dpath(), "db/oa/nsox.conf"), "w")
+        tmp_sox = open("%s%s" % (dpath(), "db/oa/nsox.cf"), "w")
     else:
-        if config['dt']['rt'] == 0:
+        tmp_sox = '/usr/nc-home/sox/nsox.cf'
 
-            tmp_sox = '/usr/nc-home/sox/nsox.conf'
-        else:
-            tmp_sox = '/usr/nc-home/sox/sox.conf'
 
-    if config['dt']['rt'] == 0:
-        flag_type = config['dt']['rd']
-        oacontent = ''
-        if flag_type == 2:
-            # jinzhuru
-            if config["IN_TCP"]['on'] == '1':
-                oacontent += '''echo 'map em4 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
-                for rule in config['IN_TCP']['rules']:
-                    oacontent += '''echo 'rdr em0 %s/32 port %s -> 2.2.2.2 port %s' >>%s;''' % (
-                        rule['myadr'], rule['myport'], rule['myport'], tmp_sox)
+    flag_type = config['dt']['rd']
+    oacontent = ''
+    if flag_type == 2:
+        # jinzhuru
+        if config["IN_TCP"]['on'] == '1':
+            oacontent += '''echo 'map xint 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
+            for rule in config['IN_TCP']['rules']:
+                oacontent += '''echo 'rdr lan1 %s/32 port %s -> 2.2.2.1 port %s' >>%s;''' % (
+                    rule['myadr'], rule['myport'], rule['myport'], tmp_sox)
 
 
 
-        elif flag_type == 1:
-            # jinzhunchu
+    elif flag_type == 1:
+        # jinzhunchu
 
-            if config["OUT_TCP"]['on'] == '1':
-                oacontent += '''echo 'map em0 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
-                for rule in config['OUT_TCP']['rules']:
-                    oacontent += '''echo 'rdr em4 0.0.0.0/0 port %s -> %s port %s' >>%s;''' % (
-                        rule['myport'], rule['hisadr'], rule['hisport'], tmp_sox)
-        else:
-            # zhunru he zhunchu
-            if config["IN_TCP"]['on'] == '1':
-
-                oacontent += '''echo 'map em4 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
-                for rule in config['IN_TCP']['rules']:
-                    oacontent += '''echo 'rdr em0 %s/32 port %s -> 2.2.2.2 port %s' >>%s;''' % (
-                        rule['myadr'], rule['myport'], rule['myport'], tmp_sox)
-
-            if config["OUT_TCP"]['on'] == '1':
-                oacontent += '''echo 'map em0 0.0.0.0/0 -> 0/32' %s %s;''' % (
-                ">>" if config["IN_TCP"]['on'] == '1' else ">", tmp_sox)
-                for rule in config['OUT_TCP']['rules']:
-                    oacontent += '''echo 'rdr em4 0.0.0.0/0 port %s -> %s port %s' >>%s;''' % (
-                        rule['myport'], rule['hisadr'], rule['hisport'], tmp_sox)
+        if config["OUT_TCP"]['on'] == '1':
+            oacontent += '''echo 'map lan1 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
+            for rule in config['OUT_TCP']['rules']:
+                oacontent += '''echo 'rdr xint 0.0.0.0/0 port %s -> %s port %s' >>%s;''' % (
+                    rule['myport'], rule['hisadr'], rule['hisport'], tmp_sox)
     else:
-        oacontent = '''echo 'COMMIN=/dev/owd0' > %s;''' % tmp_sox
-        oacontent += '''echo 'COMMOUT=/dev/owd0' >> %s;''' % tmp_sox
+        # zhunru he zhunchu
+        if config["IN_TCP"]['on'] == '1':
 
-        flag_type = config['dt']['rd']
-        if flag_type == 2:
-            # jinzhuru
+            oacontent += '''echo 'map xint 0.0.0.0/0 -> 0/32' > %s;''' % tmp_sox
+            for rule in config['IN_TCP']['rules']:
+                oacontent += '''echo 'rdr lan1 %s/32 port %s -> 2.2.2.1 port %s' >>%s;''' % (
+                    rule['myadr'], rule['myport'], rule['myport'], tmp_sox)
 
-            rs = ["IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]
+        if config["OUT_TCP"]['on'] == '1':
+            oacontent += '''echo 'map lan1 0.0.0.0/0 -> 0/32' %s %s;''' % (
+            ">>" if config["IN_TCP"]['on'] == '1' else ">", tmp_sox)
+            for rule in config['OUT_TCP']['rules']:
+                oacontent += '''echo 'rdr xint 0.0.0.0/0 port %s -> %s port %s' >>%s;''' % (
+                    rule['myport'], rule['hisadr'], rule['hisport'], tmp_sox)
 
-        elif flag_type == 1:
-            # jinzhunchu
-            rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA"]
 
-        else:
-
-            rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA", "IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]
-        for i in rs:
-            if config[i]['on'] == '1':
-                oacontent += '''echo 'FILE=/usr/nc-home/sox/%s'>> %s;''' % (i, tmp_sox)
-        oacontent += '''echo 'LOG=1' >> %s;''' % tmp_sox
-        oacontent += '''echo 'TCPIDLETIMEOUT=604800' >> %s;''' % tmp_sox
-        realpath = '/usr/nc-home/sox/sox.conf.new'
 
     if getplatform():
         tmp_sox.write(oacontent)
         tmp_sox.close()
     else:
         try:
-            print oacontent
             verification_ssh(rsetting(), oacontent)
         except Exception as e:
             print e
@@ -468,24 +486,11 @@ def write_ia_rcconf(config):
         iacontent += 'fsck_enable="YES"\n'  # add
         iacontent += 'syslogd_enable="YES"\n'
         iacontent += 'syslogd_flags="-ss"\n'
-        if config['defaultgateway']:
-            iacontent += 'defaultrouter="%s"\n' % config['defaultgateway']
-        iacontent += 'hostname="MFIA"\n'
-        # ind = 0
-        # tmp = ''
-        for i in config['interface']:
-
-            # if tmp == i['name']:
-            #     ind += 1
-            # else:
-            #     pass
-            # tmp = i['name']
-            iacontent += 'ifconfig_%s="inet %s netmask %s"\n' % (i['name'], i['adr'], i['netmask'])
-            # iacontent += 'ifconfig_%s_alias%s="inet %s netmask %s"\n' % (i['name'], ind, i['adr'], i['netmask'])
-
-
-        iacontent += 'ifconfig_em4="inet 2.2.2.1 netmask 255.255.255.0"\n'
-        iacontent += 'ifconfig_em5="inet 5.5.5.1 netmask 255.255.255.0"\n'
+        iacontent += 'sendmail_enable="NONE"\n'
+        iacontent += 'sendmail_submit_enable="NO"\n'
+        iacontent += 'sendmail_outbound_enable="NO"\n'
+        iacontent += 'sendmail_msp_queue_enable="NO"\n'
+        iacontent += 'hostname="MNIA"\n'
         bsdfile_rcconf.write(iacontent)
         bsdfile_rcconf.close()
         flag = True
@@ -498,35 +503,19 @@ def write_ia_rcconf(config):
     return flag
 
 
-def write_ia_rclocal(config):
+def write_ia_interfaces(config):
     try:
         if getplatform():
-            bsdfile_rcconf = open("%s%s" % (dpath(), "db/ia/rc.local"), "w")
+            bsdfile_rcconf = open("%s%s" % (dpath(), "db/ia/interfaces.conf"), "w")
         else:
-            bsdfile_rcconf = open("/etc/rc.local", "w")
-
-        iacontent = 'if [ -f /usr/nc-home/baktgz/patch.tgz ]; then\n'
-        iacontent += '	tar xzfP /usr/nc-home/baktgz/patch.tgz\n'
-        iacontent += '	rm /usr/nc-home/baktgz/patch.tgz\n'
-        iacontent += 'fi\n'
-        iacontent += 'ifconfig em4 up\n'
-        iacontent += 'sleep 2\n'
-        iacontent += 'ifconfig em5 up\n'
-        iacontent += 'sleep 2\n'
-        iacontent += 'ln -s /usr/nc-home/local /usr/local\n'
-        iacontent += 'ln -s /usr/nc-home/libstdc++.so.6 /usr/lib/libstdc++.so.6\n'
-        iacontent += 'ln -s /usr/nc-home/uniq /usr/bin/uniq\n'
-        iacontent += 'sh /etc/router.conf\n'
-        iacontent += 'sh /etc/carp.conf\n'
-        if config['dt']['rt'] == 1:
-            iacontent += 'sysctl -w hw.owd_recvif=em5\n'
-            iacontent += 'sysctl -w hw.owd_sendif=em5\n'
-            iacontent += 'cd /usr/nc-home/bin/ && ./prog.sh &\n'
-            iacontent += '/usr/nc-home/bin/db.sh\n'
-        else:
-
-            iacontent += 'ipnat -CF -f /usr/nc-home/sox/nsox.cf\n'
-
+            bsdfile_rcconf = open("/etc/interfaces.conf", "w")
+        iacontent = ''
+        for i in config['interface']:
+            if 'alias' in i['name']:
+                intnames = i['name'].split('_alias')
+                iacontent += 'ifconfig %s inet %s netmask %s alias\n' % (intnames[0], i['adr'], i['netmask'])
+            else:
+                iacontent += 'ifconfig %s inet %s netmask %s\n' % (i['name'], i['adr'], i['netmask'])
         bsdfile_rcconf.write(iacontent)
         bsdfile_rcconf.close()
         flag = True
@@ -546,8 +535,11 @@ def write_ia_router(config):
         else:
             bsdfile_router = open("/etc/router.conf", "w")
         iacontent = ''
-        for i in config:
+        for i in config['router']:
             iacontent += 'route add %s %s %s\n' % (i['network'], i['gateway'], i['netmask'])
+        if config['defaultgateway']:
+            iacontent += 'route add default %s\n' % config['defaultgateway']
+
         bsdfile_router.write(iacontent)
         flag = True
     except Exception as e:
@@ -582,72 +574,57 @@ def write_ia_carp(config):
 def write_ia_sox(config):
     try:
         if getplatform():
-            bsdfile_router = open("%s%s" % (dpath(), "db/ia/nsox.conf"), "w")
+            bsdfile_router = open("%s%s" % (dpath(), "db/ia/nsox.cf"), "w")
         else:
             print config['dt']['rt']
             if config['dt']['rt'] == 0:
 
-                bsdfile_router = open("/usr/nc-home/sox/nsox.conf", "w")
+                bsdfile_router = open("/usr/nc-home/sox/nsox.cf", "w")
             else:
                 bsdfile_router = open("/usr/nc-home/sox/sox.conf", "w")
 
-        if config['dt']['rt'] == 0:
-            iacontent = ''
-            flag_type = config['dt']['rd']
 
-            if flag_type == 2:
-                # jinzhunru
-                if config["IN_TCP"]['on'] == '1':
-                    iacontent += 'map em0 0.0.0.0/0 -> 0/32\n'
+        iacontent = ''
+        flag_type = config['dt']['rd']
 
-                    for rule in config['IN_TCP']['rules']:
-                        iacontent += '''rdr em4 0.0.0.0/0 port %s -> %s port %s\n''' % (
-                            rule['myport'], rule['hisadr'], rule['hisport'])
+        if flag_type == 2:
+            # jinzhunru
+            if config["IN_TCP"]['on'] == '1':
+                iacontent += 'map lan1 0.0.0.0/0 -> 0/32\n'
 
-            elif flag_type == 1:
-                # jinzhunchu
+                for rule in config['IN_TCP']['rules']:
+                    iacontent += '''rdr xint 0.0.0.0/0 port %s -> %s port %s\n''' % (
+                        rule['myport'], rule['hisadr'], rule['hisport'])
 
-                if config["OUT_TCP"]['on'] == '1':
-                    iacontent += 'map em4 0.0.0.0/0 -> 0/32\n'
+        elif flag_type == 1:
+            # jinzhunchu
 
-                    for rule in config['OUT_TCP']['rules']:
-                        iacontent += '''rdr em0 %s/32 port %s -> 2.2.2.2 port %s\n''' % (
-                            rule['myadr'], rule['myport'], rule['myport'])
+            if config["OUT_TCP"]['on'] == '1':
+                iacontent += 'map xint 0.0.0.0/0 -> 0/32\n'
+
+                for rule in config['OUT_TCP']['rules']:
+                    iacontent += '''rdr lan1 %s/32 port %s -> 2.2.2.2 port %s\n''' % (
+                        rule['myadr'], rule['myport'], rule['myport'])
 
 
 
-            else:
-                # zhunru he zhunchu
-                print "zhuruhezhunchu"
-                if config["OUT_TCP"]['on'] == '1':
-                    iacontent += 'map em4 0.0.0.0/0 -> 0/32\n'
-                    for rule in config['OUT_TCP']['rules']:
-                        iacontent += '''rdr em0 %s/32 port %s -> 2.2.2.2 port %s\n''' % (
-                            rule['myadr'], rule['myport'], rule['myport'])
-
-                if config["IN_TCP"]['on'] == '1':
-
-                    iacontent += 'map em0 0.0.0.0/0 -> 0/32\n'
-                    for rule in config['IN_TCP']['rules']:
-                        iacontent += '''rdr em4 0.0.0.0/0 port %s -> %s port %s\n''' % (
-                            rule['myport'], rule['hisadr'], rule['hisport'])
         else:
-            iacontent = 'COMMIN=/dev/owd0\n'
-            iacontent += 'COMMOUT=/dev/owd0\n'
+            # zhunru he zhunchu
 
-            flag_type = config['dt']['rd']
-            if flag_type == 2:
-                rs = ["IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]
-            elif flag_type == 1:
-                rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA"]
-            else:
-                rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA", "IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]
-            for i in rs:
-                if config[i]['on'] == '1':
-                    iacontent += 'FILE=/usr/nc-home/sox/%s\n' % i
-            iacontent += 'LOG=0\n'
-            iacontent += 'TCPIDLETIMEOUT=604800\n'
-        print iacontent
+            if config["OUT_TCP"]['on'] == '1':
+                iacontent += 'map xint 0.0.0.0/0 -> 0/32\n'
+                for rule in config['OUT_TCP']['rules']:
+                    iacontent += '''rdr lan1 %s/32 port %s -> 2.2.2.2 port %s\n''' % (
+                        rule['myadr'], rule['myport'], rule['myport'])
+
+            if config["IN_TCP"]['on'] == '1':
+
+                iacontent += 'map lan1 0.0.0.0/0 -> 0/32\n'
+                for rule in config['IN_TCP']['rules']:
+                    iacontent += '''rdr xint 0.0.0.0/0 port %s -> %s port %s\n''' % (
+                        rule['myport'], rule['hisadr'], rule['hisport'])
+
+
         bsdfile_router.write(iacontent)
         flag = True
     except Exception as e:
@@ -656,105 +633,3 @@ def write_ia_sox(config):
     finally:
         bsdfile_router.close()
     return flag
-
-
-def write_owdiarule(rulename, rules):
-    try:
-        if getplatform():
-            rfname = open("%s%s%s" % (dpath(), "db/", rulename), "w")
-        else:
-            rfname = open("%s%s" % ("/usr/nc-home/sox/", rulename), "w")
-        cotent = ''
-        for rule in rules:
-            if rulename in ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA"]:
-                cotent += '''PORT=%s:%s\n''' % (rule['myadr'], rule['myport'])
-            else:
-                cotent += '''SERVER=%s:%s-%s:%s\n''' % (rule['hisadr'], rule['hisport'], rule['myadr'], rule['myport'])
-        rfname.write(cotent)
-    except Exception as e:
-        print e
-    finally:
-        rfname.close()
-
-
-def write_owdoarule(rulename, rules):
-    cotent = ''
-    flag = True
-    for rule in rules:
-        if rulename in ["IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]:
-            cotent += '''echo 'PORT=%s:%s' %s  /usr/nc-home/sox/%s;''' % (
-                rule['myadr'], rule['myport'], '>' if flag else '>>', rulename)
-        else:
-            cotent += '''echo 'SERVER=%s:%s-%s:%s' %s /usr/nc-home/sox/%s;''' % (
-                rule['hisadr'], rule['hisport'], rule['myadr'], rule['myport'], '>' if flag else '>>', rulename)
-        flag = False
-    if not rules:
-        cotent += '''echo '' > /usr/nc-home/sox/%s;''' % rulename
-    try:
-        verification_ssh(rsetting(), cotent)
-    except Exception as e:
-        print e
-
-
-def write_iarule(rulename, rules):
-    cotent = ''
-    for rule in rules:
-        if rulename in ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA"]:
-            cotent += '''PORT=%s:%s\n''' % (rule['myadr'], rule['myport'])
-        else:
-            cotent += '''SERVER=%s:%s-%s:%s\n''' % (rule['hisadr'], rule['hisport'], rule['myadr'], rule['myport'])
-
-    try:
-
-        if getplatform():
-            rfname = open("%s%s%s" % (dpath(), "db/ia/", rulename), "w")
-        else:
-            rfname = open("%s%s" % ("/usr/nc-home/sox/", rulename), "w")
-
-        rfname.write(cotent)
-    except Exception as e:
-        print e
-    finally:
-        rfname.close()
-
-
-def write_ia_detail(config):
-    if config['dt']['rd'] == 2:
-        rs = ["IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]
-    elif config['dt']['rd'] == 1:
-        rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA"]
-    else:
-        rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA", "IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]
-    for i in rs:
-        if config[i]['on'] == '1':
-            write_iarule(i, config[i]['rules'])
-
-
-def write_oarule(rulename, rules):
-    cotent = ''
-    flag = True
-    for rule in rules:
-        if rulename in ["IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"]:
-            cotent += '''echo 'PORT=%s:%s' %s  /usr/nc-home/sox/%s;''' % (
-                rule['myadr'], rule['myport'], '>' if flag else '>>', rulename)
-        else:
-            cotent += '''echo 'SERVER=%s:%s-%s:%s' %s /usr/nc-home/sox/%s;''' % (
-                rule['hisadr'], rule['hisport'], rule['myadr'], rule['myport'], '>' if flag else '>>', rulename)
-        flag = False
-    if not rules:
-        cotent += '''echo '' > /usr/nc-home/sox/%s;''' % rulename
-
-    if getplatform():
-        try:
-            rfname = open("%s%s%s" % (dpath(), "db/oa/", rulename), "w")
-            rfname.write(cotent)
-        except Exception as e:
-            print e
-        finally:
-            rfname.close()
-    else:
-        try:
-            verification_ssh(rsetting(), cotent)
-        except Exception as e:
-
-            print e

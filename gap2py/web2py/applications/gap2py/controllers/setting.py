@@ -48,7 +48,7 @@ def dtype():
 
 def sdtype():
     user = session.user or ''
-    if user:
+    if user == 'midnet':
         rt = request.vars.rt
         rd = request.vars.rd
         iad = request.vars.iad
@@ -71,4 +71,4 @@ def sdtype():
             setbootcfg(ss)
         return sj.dumps({'fb': 1})
     else:
-        return
+        return redirect('/gap2py/login/index')

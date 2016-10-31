@@ -32,8 +32,7 @@ try:
         read_file(apath('../parameters_%i.py' % port, request)), _config)
 
     if not 'password' in _config or not _config['password']:
-        redirect('/gap2py/index/index')
-        # raise HTTP(200, T('admin disabled because no admin password'))
+	redirect('/gap2py/index/index')
 except IOError:
     import gluon.fileutils
     if is_gae:

@@ -1,0 +1,5 @@
+[2016-08-14 17:41:51] START
+[2016-08-14 17:42:01] DELETE welcome/models/db.py: -44
+[2016-08-14 17:42:10] DELETE welcome/models/menu.py: -121
+[2016-08-14 17:42:15] DELETE welcome/controllers/appadmin.py: -583
+[2016-08-14 17:42:44] EDIT welcome/controllers/default.py: -39

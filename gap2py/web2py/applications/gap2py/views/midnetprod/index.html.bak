@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>中网驰云防火墙</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{=URL('static','css/pintuer.css')}}">
+    <style type="text/css">
+
+        body {
+
+            color: #2b2b2b;
+            background-image: {{=URL('static','img/bg.jpg')}};
+        }
+    </style>
+    <script src="{{=URL('static','js/jquery.js')}}"></script>
+    <script src="{{=URL('static','js/pintuer.js')}}"></script>
+    <script src="{{=URL('static','js/respond.js')}}"></script>
+</head>
+<body>
+<div class="container">
+
+    <div style="height: 10px"></div>
+    <div class="panel">
+        <div class="panel-head bg-green"><h4>请在下方的输入框中输入保密内容(仅限中文)</h4></div>
+        <div class="panel-body" style="height: 550px">
+            <div>
+                <form action="" class="" method="post">
+
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <textarea rows="10" class="input" style="height: 450px" name="st" class="radius">{{=current }}</textarea>
+                    <br>
+                    <button class="button bg-green button-big float-right">提交</button>
+                    <a class="button bg-white button-big  float-right" href="/gap2py/license/index/"role="button">License</a>
+                    <a class="button bg-white button-big  float-right" href="/gap2py/setting/index/"role="button">设置</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

@@ -8,11 +8,11 @@ from zcommon import *
 
 def index():
 
-    if license_passed():
+    if not license_passed():
         return redirect('/gap2py/license/index')
     user = session.user or ''
     if user:
-        return dict(username='admin')
+        return dict(username=user)
     else:
         return redirect('/gap2py/login/index')
 
@@ -59,23 +59,22 @@ def get_status():
                 ad = getdtype()
                 try:
 
-                    word = something()['diskstr'].replace('replace', 'ad%s' % ad['iad'])
-                    print word
+                    word = something()['diskstr'].replace('replace', 'ada0')
+
                     diskstatus_ia = commands.getoutput(word)[:-1]
                 except Exception as e:
                     print e
                     diskstatus_ia = 0
 
                 try:
-                    cmd = something()['diskstr'].replace('replace', 'ad%ss2' % ad['oad'])
-                    print cmd
+                    cmd = something()['diskstr'].replace('replace', 'ada0')
+
                     diskstatus_oa = verification_ssh(rsetting(), cmd)
                     diskstatus_oa = (diskstatus_oa.split('\n'))[1:-1][0]
                     diskstatus_oa = diskstatus_oa.strip('\r')[:-1]
                     if diskstatus_oa > 90:
                         diskstatus_oa = 30
                 except Exception as e:
-                    print 111
                     print e
                     diskstatus_oa = diskstatus_ia
 
@@ -144,74 +143,6 @@ def get_status():
         return redirect('/gap2py/login/index')
     return sj.dumps(s)
 
-
-def getlicense():
-    s = {}
-    try:
-        f = open("%s%s" % (dpath(), "db/license.json"), "r");
-        s = json.load(f)
-
-    except Exception as e:
-        print e
-    finally:
-        f.close()
-    if s.get('license'):
-        return s['license']
-    else:
-        return ''
-
-
-def checklicensenow():
-    oldlicense = getlicense()
-    if oldlicense:
-        from mnLicense import MNLicense
-
-        key = ["9878*(&^^&)0LLIu(*&^))#$@!KJLKJj", "8midnet8", b'1815122959500519']
-        try:
-            FLAG = MNLicense(key).checklicense(oldlicense)
-        except Exception as e:
-            print e
-            FLAG = False
-    return FLAG
-
-
-def license_index():
-    from mnLicense import MNLicense
-    key = ["9878*(&^^&)0LLIu(*&^))#$@!KJLKJj", "8midnet8", b'1815122959500519']
-    obj = MNLicense(key)
-    status = 'license Error'
-    mash = obj.creatmash(obj.creatdict())
-
-    if request.method == 'GET':
-        ol = getlicense()
-        f = False
-    else:
-        ol = request.form.get('license', '')
-        f = True
-    if ol:
-        try:
-
-            if obj.checklicense(ol):
-                status = 'License '
-            if f:
-                save_license(ol)
-        except:
-            pass
-    response.view = 'license.html'
-    return dict(status=status, mash=mash)
-
-
-def save_license(license):
-    s = False
-    try:
-        f = open("%s%s" % (dpath(), "db/license.json"), "w");
-        json.dump({"license": license}, f)
-        s = True
-    except:
-        pass
-    finally:
-        f.close()
-    return s
 
 
 def skin_config():
@@ -302,7 +233,6 @@ def get_log():
             print e
 
         try:
-            print data
             feedback = sj.dumps(data)
         except Exception as e:
             print e

@@ -1,0 +1,176 @@
+2016-08-13 13:41:41,075 CRIT Supervisor running as root (no user in config file)
+2016-08-13 13:41:41,077 INFO daemonizing the supervisord process
+2016-08-13 13:41:41,077 INFO supervisord started with pid 5859
+2016-08-13 13:41:42,079 INFO spawned: 'gapwebtool' with pid 5860
+2016-08-13 13:41:42,192 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:42,199 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:43,201 INFO spawned: 'gapwebtool' with pid 5863
+2016-08-13 13:41:43,317 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:43,324 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:44,325 INFO spawned: 'gapwebtool' with pid 5876
+2016-08-13 13:41:44,439 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:44,446 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:45,447 INFO spawned: 'gapwebtool' with pid 5879
+2016-08-13 13:41:45,560 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:45,567 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:46,568 INFO spawned: 'gapwebtool' with pid 5882
+2016-08-13 13:41:46,681 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:46,688 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:47,689 INFO spawned: 'gapwebtool' with pid 5885
+2016-08-13 13:41:47,802 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:47,809 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:48,810 INFO spawned: 'gapwebtool' with pid 5888
+2016-08-13 13:41:48,923 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:48,930 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:49,931 INFO spawned: 'gapwebtool' with pid 5891
+2016-08-13 13:41:50,044 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:50,051 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:51,052 INFO spawned: 'gapwebtool' with pid 5894
+2016-08-13 13:41:51,165 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:51,171 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:52,173 INFO spawned: 'gapwebtool' with pid 5897
+2016-08-13 13:41:52,286 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:52,293 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:53,294 INFO spawned: 'gapwebtool' with pid 5900
+2016-08-13 13:41:53,407 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:53,414 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:54,415 INFO spawned: 'gapwebtool' with pid 5903
+2016-08-13 13:41:54,528 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:54,535 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:55,536 INFO spawned: 'gapwebtool' with pid 5906
+2016-08-13 13:41:55,649 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:55,656 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:56,657 INFO spawned: 'gapwebtool' with pid 5909
+2016-08-13 13:41:56,770 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:56,777 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:57,778 INFO spawned: 'gapwebtool' with pid 5913
+2016-08-13 13:41:57,891 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:57,898 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:41:58,899 INFO spawned: 'gapwebtool' with pid 5916
+2016-08-13 13:41:59,013 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:41:59,020 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:00,021 INFO spawned: 'gapwebtool' with pid 5919
+2016-08-13 13:42:00,134 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:00,141 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:01,142 INFO spawned: 'gapwebtool' with pid 5922
+2016-08-13 13:42:01,255 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:01,262 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:02,263 INFO spawned: 'gapwebtool' with pid 5925
+2016-08-13 13:42:02,376 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:02,383 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:03,384 INFO spawned: 'gapwebtool' with pid 5928
+2016-08-13 13:42:03,497 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:03,504 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:04,505 INFO spawned: 'gapwebtool' with pid 5931
+2016-08-13 13:42:04,618 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:04,625 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:05,626 INFO spawned: 'gapwebtool' with pid 5934
+2016-08-13 13:42:05,739 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:05,746 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:06,747 INFO spawned: 'gapwebtool' with pid 5937
+2016-08-13 13:42:06,860 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:06,867 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:07,868 INFO spawned: 'gapwebtool' with pid 5940
+2016-08-13 13:42:07,981 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:07,988 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:08,989 INFO spawned: 'gapwebtool' with pid 5943
+2016-08-13 13:42:09,102 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:09,109 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:10,110 INFO spawned: 'gapwebtool' with pid 5946
+2016-08-13 13:42:10,222 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:10,229 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:11,231 INFO spawned: 'gapwebtool' with pid 5951
+2016-08-13 13:42:11,344 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:11,351 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:12,352 INFO spawned: 'gapwebtool' with pid 5954
+2016-08-13 13:42:12,465 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:12,472 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:13,473 INFO spawned: 'gapwebtool' with pid 5957
+2016-08-13 13:42:13,586 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:13,593 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:14,594 INFO spawned: 'gapwebtool' with pid 5961
+2016-08-13 13:42:14,707 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:14,713 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:15,715 INFO spawned: 'gapwebtool' with pid 5964
+2016-08-13 13:42:15,829 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:15,835 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:16,837 INFO spawned: 'gapwebtool' with pid 5968
+2016-08-13 13:42:16,950 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:16,957 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:17,958 INFO spawned: 'gapwebtool' with pid 5971
+2016-08-13 13:42:18,071 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:18,078 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:19,079 INFO spawned: 'gapwebtool' with pid 5974
+2016-08-13 13:42:19,192 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:19,198 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:20,200 INFO spawned: 'gapwebtool' with pid 5978
+2016-08-13 13:42:20,313 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:20,320 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:21,322 INFO spawned: 'gapwebtool' with pid 5981
+2016-08-13 13:42:21,435 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:21,441 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:22,443 INFO spawned: 'gapwebtool' with pid 5985
+2016-08-13 13:42:22,556 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:22,563 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:23,564 INFO spawned: 'gapwebtool' with pid 5988
+2016-08-13 13:42:23,677 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:23,683 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:24,685 INFO spawned: 'gapwebtool' with pid 5992
+2016-08-13 13:42:24,798 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:24,804 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:25,806 INFO spawned: 'gapwebtool' with pid 5995
+2016-08-13 13:42:25,919 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:25,926 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:26,928 INFO spawned: 'gapwebtool' with pid 5999
+2016-08-13 13:42:27,040 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:27,047 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:28,049 INFO spawned: 'gapwebtool' with pid 6002
+2016-08-13 13:42:28,162 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:28,168 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:29,170 INFO spawned: 'gapwebtool' with pid 6006
+2016-08-13 13:42:29,282 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:29,289 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:30,291 INFO spawned: 'gapwebtool' with pid 6009
+2016-08-13 13:42:30,403 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:30,410 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:31,412 INFO spawned: 'gapwebtool' with pid 6012
+2016-08-13 13:42:31,524 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:31,531 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:32,533 INFO spawned: 'gapwebtool' with pid 6015
+2016-08-13 13:42:32,645 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:32,652 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:33,654 INFO spawned: 'gapwebtool' with pid 6018
+2016-08-13 13:42:33,766 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:33,773 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:34,775 INFO spawned: 'gapwebtool' with pid 6021
+2016-08-13 13:42:34,888 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:34,894 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:35,895 INFO spawned: 'gapwebtool' with pid 6024
+2016-08-13 13:42:36,009 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:36,016 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:37,016 INFO spawned: 'gapwebtool' with pid 6027
+2016-08-13 13:42:37,130 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:37,136 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:38,137 INFO spawned: 'gapwebtool' with pid 6030
+2016-08-13 13:42:38,250 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:38,257 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:39,258 INFO spawned: 'gapwebtool' with pid 6033
+2016-08-13 13:42:39,371 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:39,378 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:40,379 INFO spawned: 'gapwebtool' with pid 6036
+2016-08-13 13:42:40,492 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:40,499 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:41,500 INFO spawned: 'gapwebtool' with pid 6039
+2016-08-13 13:42:41,613 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:41,620 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:42,621 INFO spawned: 'gapwebtool' with pid 6042
+2016-08-13 13:42:42,734 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:42,741 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:43,742 INFO spawned: 'gapwebtool' with pid 6054
+2016-08-13 13:42:43,855 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:43,862 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:44,863 INFO spawned: 'gapwebtool' with pid 6057
+2016-08-13 13:42:44,976 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-13 13:42:44,983 INFO exited: gapwebtool (exit status 1; not expected)
+2016-08-13 13:42:45,984 INFO spawned: 'gapwebtool' with pid 6060
+2016-08-13 13:42:46,098 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)

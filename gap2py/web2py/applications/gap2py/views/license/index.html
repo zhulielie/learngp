@@ -21,11 +21,11 @@
     <script type="text/javascript">
         $(function () {
             var action = "reload";
-
+            $("#cango").hide()
             $("#" + action).on('click', function () {
                 //noinspection UnterminatedStatementJS
                 console.log(action);
-                $.get("/lc_reload/", function (result) {
+                $.get("/gap2py/service/gap_reload", function (result) {
                 });
             });
             action = "cancle";
@@ -34,6 +34,12 @@
 
                 $("#mydialog").hide()
             });
+
+            if($("#cango").attr('z') == '1')
+            {
+                console.log(1)
+                $("#cango").show()
+            }
         });
     </script>
 </head>
@@ -70,6 +76,7 @@
                     <!--suppress HtmlFormInputWithoutLabel -->
                     <textarea rows="5" class="input" style="height: 300px" name="license" class="radius">{{=cl}}</textarea>
                     <br>
+
                     <button class="button bg-green button-big button-block float-right">提交</button>
 
                 </form>
@@ -93,11 +100,9 @@
             data-mask="1"
             data-width="50%">重启网闸
     </button>
-
-    <a href="/gap2py/license/index" class="button button-big bg-green dialogs float-left" href="javascript:void(0)">刷新
+    <a id="cango"z="{{=z}}" class="button button-big bg-green dialogs float-right" href="/gap2py/index/index">配置主页</a>
+    <a href="/gap2py/license/index" class="button button-big bg-green dialogs float-right" href="javascript:void(0)">刷新
     </a>
-
-
     <div id="mydialog">
         <div class="dialog">
             <div class="dialog-head">

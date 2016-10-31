@@ -4,6 +4,7 @@ from zcommon import *
 
 
 def index():
+
     return dict(errortext='')
 
 
@@ -42,7 +43,12 @@ def login_post():
 
 def login_error():
     response.view="login/index.html"
-    return dict(errortext=u"帐号或者密码错误")
+    if license_passed():
+        return dict(errortext=u"帐号或者密码错误")
+    else:
+
+        return redirect('/gap2py/license/index')
+
 
 
 def logout():

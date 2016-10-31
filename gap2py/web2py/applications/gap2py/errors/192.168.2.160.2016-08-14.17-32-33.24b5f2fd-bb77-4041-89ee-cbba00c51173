@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.TypeError'> getmash() takes exactly 1 argument (0 given)"
+p3
+sS'layer'
+p4
+S'/usr/nc-home/gap2py/web2py/applications/gap2py/controllers/license.py'
+p5
+sS'code'
+p6
+S"# -*- coding: utf-8 -*-\nfrom mnLicense import MNLicense\nfrom zcommon import *\n# \xe5\xb0\x9d\xe8\xaf\x95\n\n\n\n\ndef index():\n    status = ''\n    cl = ''\n    z = '0'\n    if request.env.request_method == 'GET':\n        ol = getlicense()\n        cl = ol\n        f = False\n    else:\n        ol = request.post_vars.license or ''\n        f = True\n    if ol:\n        try:\n\n            if checkthelicense(ol):\n                status = 'License \xe6\xad\xa3\xe7\xa1\xae'\n                z = '1'\n            else:\n                status = 'license \xe9\x94\x99\xe8\xaf\xaf'\n            if f:\n                save_license(ol)\n        except Exception as e:\n            print e\n\n    return dict(status=status, mash=getmash(),cl=cl,z=z)\n\nresponse._vars=response._caller(index)\n"
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/usr/nc-home/gap2py/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/usr/nc-home/gap2py/web2py/applications/gap2py/controllers/license.py", line 35, in <module>\n  File "/usr/nc-home/gap2py/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/usr/nc-home/gap2py/web2py/applications/gap2py/controllers/license.py", line 33, in index\n    return dict(status=status, mash=getmash(),cl=cl,z=z)\nTypeError: getmash() takes exactly 1 argument (0 given)\n'
+p11
+s.

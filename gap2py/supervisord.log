@@ -1,0 +1,22 @@
+2016-08-15 12:19:51,828 CRIT Supervisor running as root (no user in config file)
+2016-08-15 12:19:51,833 INFO daemonizing the supervisord process
+2016-08-15 12:19:51,834 INFO supervisord started with pid 1095
+2016-08-15 12:19:52,846 INFO spawned: 'gapwebtool' with pid 1096
+2016-08-15 12:19:53,846 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2016-08-15 12:31:41,223 WARN received SIGTERM indicating exit request
+2016-08-15 12:31:41,223 INFO waiting for gapwebtool to die
+2016-08-15 12:31:41,241 WARN killing 'gapwebtool' (1096) with SIGKILL
+2016-08-15 12:31:41,242 WARN killing 'gapwebtool' (1096) with SIGKILL
+2016-08-15 12:31:41,243 WARN killing 'gapwebtool' (1096) with SIGKILL
+2016-08-15 12:31:41,243 INFO stopped: gapwebtool (terminated by SIGKILL)
+2014-01-24 22:02:40,420 CRIT Supervisor running as root (no user in config file)
+2014-01-24 22:02:40,421 INFO daemonizing the supervisord process
+2014-01-24 22:02:40,422 INFO supervisord started with pid 5873
+2014-01-24 22:02:41,479 INFO spawned: 'gapwebtool' with pid 5874
+2014-01-24 22:02:42,514 INFO success: gapwebtool entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2014-01-24 22:05:18,900 WARN received SIGTERM indicating exit request
+2014-01-24 22:05:18,900 INFO waiting for gapwebtool to die
+2014-01-24 22:05:18,901 WARN killing 'gapwebtool' (5874) with SIGKILL
+2014-01-24 22:05:18,901 WARN killing 'gapwebtool' (5874) with SIGKILL
+2014-01-24 22:05:18,903 WARN killing 'gapwebtool' (5874) with SIGKILL
+2014-01-24 22:05:18,904 INFO stopped: gapwebtool (terminated by SIGKILL)

@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'setbootcfg' is not defined"
+p3
+sS'layer'
+p4
+S'/usr/nc-home/gap2py/web2py/applications/gap2py/controllers/setting.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# \xe5\xb0\x9d\xe8\xaf\x95\nimport gluon.contrib.simplejson as sj\nfrom zcommon import *\nimport os\ndebug = False\ndef skin_config():\n    user = session.get(\'user\', \'\')\n    if user:\n        response.view = \'skin-config.html\'\n        return dict()\n    else:\n        return redirect(\'/gap2py/login\')\n\ndef index():\n    if debug:\n        print \'index\'\n    user = session.user\n    if user == "midnet":\n        return dict(username=user)\n    else:\n        return redirect(\'/gap2py/index\')\n\n\ndef dtype():\n    if debug:\n        print \'dtype\'\n    flag = False\n    user = session.user\n    if user == "midnet":\n        try:\n            file = "%s%s" % (dpath(), "db/needchange")\n            flag = os.path.exists(file);\n        except Exception as e:\n            print e\n\n        dt = getdtype()\n        if flag:\n            dt[\'ct\'] = dt[\'rt\']\n            dt[\'cd\'] = dt[\'rd\']\n            setdtype(dt)\n            os.remove(file)\n\n        return sj.dumps(dt)\n    else:\n        return redirect(\'/gap2py/login/\')\n\n\ndef sdtype():\n    user = session.user or \'\'\n    if user:\n        rt = request.vars.rt\n        rd = request.vars.rd\n        iad = request.vars.iad\n        oad = request.vars.oad\n        if rt == rd == iad == oad == \'-1\':\n            return sj.dumps({\'fb\': -1})\n        ss = getdtype()\n        if int(rt) != -1:\n            ss[\'rt\'] = int(rt)\n        if int(rd) != -1:\n            ss[\'rd\'] = int(rd)\n        if int(iad) != -1:\n            ss[\'iad\'] = int(iad)\n        if int(oad) != -1:\n            ss[\'oad\'] = int(oad)\n        setdtype(ss)\n        if iad == oad == \'-1\':\n            pass\n        else:\n            setbootcfg(ss)\n        return sj.dumps({\'fb\': 1})\n    else:\n        return\n\nresponse._vars=response._caller(sdtype)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/usr/nc-home/gap2py/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/usr/nc-home/gap2py/web2py/applications/gap2py/controllers/setting.py", line 76, in <module>\n  File "/usr/nc-home/gap2py/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/usr/nc-home/gap2py/web2py/applications/gap2py/controllers/setting.py", line 71, in sdtype\n    setbootcfg(ss)\nNameError: global name \'setbootcfg\' is not defined\n'
+p11
+s.

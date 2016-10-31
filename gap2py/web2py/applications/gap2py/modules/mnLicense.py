@@ -74,7 +74,7 @@ class MNLicense():
         sysctl = '/sbin/sysctl'
         smartctl = '/usr/local/sbin/smartctl'
         get_card = "%s -a /dev/%s | %s 'Serial Number' | %s '{print $3}'"
-        ads = ['ad0', 'ad1', 'ad2', 'ad3', 'ad4', 'ad5', 'ad6', 'ad7']
+        ads = ['ada0']
         if dict['dev_no'] == -1:
             for x in range(len(ads)):
                 card_searial = os.popen(get_card % (smartctl, ads[x], grep, awk)).read().strip('\n')
@@ -91,7 +91,7 @@ class MNLicense():
         dict['DISK'] = card_searial.strip()
         # dict['OPT1'] = ""
         # dict['TYPE'] = "GAP"
-        interfaces = ["%s%s" % (y,x) for y in ['em','igb','lan','E','dmz','F','fxp'] for x in range(0,20)]
+        interfaces = ["%s%s" % (y,x) for y in ['igb'] for x in range(0,8)]
         for x in range(len(interfaces)):
             mac = os.popen(
                 "%s %s lladdr | %s ether | %s '{print $2}'l" % (ifconfig, interfaces[x], grep, awk)).read().strip('\n')

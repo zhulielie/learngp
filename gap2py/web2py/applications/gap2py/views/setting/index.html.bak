@@ -1,3 +1,232 @@
-{{extend 'layout.html'}}
-<h1>这是 setting/index.html 模板</h1>
-{{=BEAUTIFY(response._vars)}}
+<!DOCTYPE html>
+<html>
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>
+        中网驰云隔离网闸 WEB管理
+    </title>
+    <link href="{{=URL('static','favicon.ico') }}" rel="shortcut icon" type="image/x-icon">
+    <link href="{{=URL('static','favicon.ico') }}" rel="icon" type="image/x-icon">
+    <link href="{{=URL('static','css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{=URL('static','font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="{{=URL('static','css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+    <link href="{{=URL('static','css/animate.css') }}" rel="stylesheet">
+    <link href="{{=URL('static','css/style.css') }}" rel="stylesheet">
+
+</head>
+<body class="" data-spy="scroll" data-target=".navbar-example">
+
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-side navbar-example" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element" style="text-align: center"> <span><a href="/gap2py/index/">
+                        <img alt="image" class="img-circle" style="height: 45px"
+                             src="{{=URL('static','img/admin.png') }}"/></a>
+                             </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">欢迎登陆</strong>
+                             </span> <span class="text-muted text-xs block">{{ =username }} </span> </span> </a>
+                    </div>
+                    <div class="logo-element">
+                        中网
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom" id="top">
+            <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
+                            class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">中网驰云隔离网闸WEB管理 </span><code>v6.99</code>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="fa fa-bell"></i> <span class="label label-primary" id="nr_tip"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts">
+                            <li>
+                                <div class="text-center link-block">
+                                    <strong id="nr_info">没有任何提醒</strong>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/gap2py/login/logout/">
+                            <i class="fa fa-sign-out"></i> 注销
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <form method="get" class="form-horizontal">
+                                <div class="form-group"><label class="col-sm-2 control-label">当前模式</label>
+
+                                    <div class="col-sm-6"><select class="form-control m-b" name="ct" id="ct"
+                                                                  disabled="disabled">
+                                        <option value="0">nat</option>
+                                        <option value="1">owd</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">当前正反向</label>
+
+                                    <div class="col-sm-6"><select class="form-control m-b" name="cd" id="cd"
+                                                                  disabled="disabled">
+                                        <option value="0">双向</option>
+                                        <option value="1">正向</option>
+                                        <option value="2">反向</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <hr>
+                                <div class="form-group"><label class="col-sm-2 control-label">重启后模式</label>
+
+                                    <div class="col-sm-6"><select class="form-control m-b" name="rt" id="rt"
+                                                                  disabled="disabled">
+                                        <option value="0">nat</option>
+                                        <option value="1">owd</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">重启后正反向</label>
+
+                                    <div class="col-sm-6"><select class="form-control m-b" name="rd" id="rd"
+                                                                  disabled="disabled">
+                                        <option value="0">双向</option>
+                                        <option value="1">正向</option>
+                                        <option value="2">反向</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <hr>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">更改模式</label>
+
+                                    <div class="col-sm-6"><select class="form-control m-b" name="nct" id="nct">
+                                        <option value="-1">不更改</option>
+                                        <option value="0">nat</option>
+                                        <option value="1">owd</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">更改正反向</label>
+
+                                    <div class="col-sm-6"><select class="form-control m-b" name="ncd" id="ncd">
+                                        <option value="-1">不更改</option>
+                                        <option value="0">双向</option>
+                                        <option value="1">正向</option>
+                                        <option value="2">反向</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <hr>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">内网机硬盘ad</label>
+
+                                    <div class="col-sm-6"><select class="form-control m-b" name="iad" id="iad">
+                                        <option value="-1">不更改</option>
+                                        <option value="0">ad0</option>
+                                        <option value="1">ad1</option>
+                                        <option value="2">ad2</option>
+                                        <option value="3">ad3</option>
+                                        <option value="4">ad4</option>
+                                        <option value="5">ad5</option>
+                                        <option value="6">ad6</option>
+                                    </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group"><label class="col-sm-2 control-label">外网机硬盘ad</label>
+
+                                    <div class="col-sm-6"><select class="form-control m-b" name="oad" id="oad">
+                                        <option value="-1">不更改</option>
+                                        <option value="0">ad0</option>
+                                        <option value="1">ad1</option>
+                                        <option value="2">ad2</option>
+                                        <option value="3">ad3</option>
+                                        <option value="4">ad4</option>
+                                        <option value="5">ad5</option>
+                                        <option value="6">ad6</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-8  col-sm-offset-4">
+                                        <a href="javascript:void(0)" id="save" class="btn btn-primary">应用</a>
+                                        <a href="/gap2py/license/index"  class="btn btn-primary">license</a>
+                                        <a href="/gap2py/midnetprod/index"  class="btn btn-primary">production</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div>
+                <strong>版权所有</strong> 上海中网网络安全技术有限公司 &copy; 2014-2016
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="{{=URL('static','js/jquery-2.1.1.js') }}"></script>
+<script src="{{=URL('static','js/bootstrap.min.js') }}"></script>
+<script src="{{=URL('static','js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+<script src="{{=URL('static','js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{=URL('static','js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
+
+
+<!-- Custom and plugin javascript -->
+<script src="{{=URL('static','js/inspinia.js') }}"></script>
+<script src="{{=URL('static','js/plugins/pace/pace.min.js') }}"></script>
+<script src="{{=URL('static','js/jSing.min.js') }}"></script>
+<script src="{{=URL('static','js/json2.min.js') }}"></script>
+
+
+<script src="{{=URL('static','js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
+<script src="{{=URL('static','js/settings.js') }}"></script>
+
+
+</body>
+
+
+</html>
