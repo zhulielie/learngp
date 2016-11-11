@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 # 尝试
-import random
+import random,logging  
 
 import gluon.contrib.simplejson as sj
 from zcommon import *
-
-
+logging.basicConfig(level=logging.DEBUG,  
+                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',  
+                    datefmt='%a, %d %b %Y %H:%M:%S',  
+                    filename='log.log',  
+                    filemode='w')  
 def index():
+    logging.debug('test')  
+
 
     if not license_passed():
         return redirect('/gap2py/license/index')

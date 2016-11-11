@@ -1,0 +1,396 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"FIle",
+				"FILES"
+			],
+			[
+				"tr",
+				"true"
+			],
+			[
+				"d",
+				"document"
+			],
+			[
+				"kg_",
+				"kg_lnn"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"v",
+				"vflag"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "import gluon.contrib.simplejson as sj\nfrom zcommon import *\nimport os\n\ndef need_restart():\n    data = {'succ': False}\n    user = session.get('user', '')\n    if user:\n        try:\n            file = \"%s%s\" % (dpath(), \"db/needrestart\")\n            data['succ'] = os.path.exists(file);\n        except Exception as e:\n            print e\n            data['succ'] = False\n    else:\n        return redirect('/gap2py/login/index')\n    return sj.dumps(data)\n\ndef online():\n    return sj.dumps({'fb': '1'})\n\ndef gap_reload():\n    user = session.get('user', '')\n    if user:\n        if request.env.request_method == 'POST':\n            cmd = request.post_vars.cmd\n            password = request.post_vars.password\n            if cmd == 'reload':\n                if password == 'zll':\n                    restart_gap()\n    return sj.dumps({})\n\ndef gap_stop():\n    user = session.get('user', '')\n    if user:\n        if request.env.request_method == 'POST':\n            cmd = request.post_vars.cmd\n            password = request.post_vars.password\n            if cmd == 'stop':\n                if password == 'zll':\n                    stop_gap()\n    return sj.dumps({})\n\n\ndef gap_time():\n    user = session.get('user', '')\n    data = {'succ': False}\n    if user:\n        import time\n        ISOTIMEFORMAT='%Y-%m-%d %X'\n        data['time'] = time.strftime( ISOTIMEFORMAT, time.localtime() )\n        data['succ'] = True \n    return sj.dumps(data)\n\ndef gap_set_time():\n    user = session.get('user', '')\n    data = {'succ': False}\n    if user:\n        if request.env.request_method == 'POST':\n            time = request.post_vars.time\n            os.system(\"date %s\" % time)\n    return sj.dumps(data)\n# def bytesToSize1024(bytes, precision = 2):\n#     import math\n#     unit = ('B','KB','MB')\n#     if bytes >=1024:\n#         i = math.floor(math.log(bytes, 1024))\n#         return \"%s%s\" % (round(bytes / math.pow(1024, i), precision),unit[int(i)-1])\n#     else:\n#         return \"%sB\" % bytes\n\ndef gap_newsystem():\n    \n    sFileName = request.post_vars['image_file'].name\n    sFileType = request.post_vars['image_file'].type\n  \n    \n    file_ = open('newsystem.%s' % str(sFileType), 'w')\n    for x in request.post_vars['image_file'].file.readlines():\n        file_.write(x)\n    file_.close()\n    return '''<p>Your file: %s has been successfully received.</p><p>Type: %s</p>''' % (sFileName,sFileType)\n    \n",
+			"file": "gap2py/web2py/applications/gap2py/controllers/service.py",
+			"file_size": 2442,
+			"file_write_time": 131233338370000000,
+			"settings":
+			{
+				"buffer_size": 2396,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 87.0,
+		"last_filter": "Package Control: install",
+		"selected_items":
+		[
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: instal",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 521.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/zhulielie/learngp",
+		"/Users/zhulielie/learngp/gap2py",
+		"/Users/zhulielie/learngp/gap2py/web2py",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/controllers",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/static",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/static/css",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/static/js",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/views",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/views/index"
+	],
+	"file_history":
+	[
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/static/css/style.css",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/views/index/index.html",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/static/js/zll.js",
+		"/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/controllers/service.py",
+		"/Users/zhulielie/learngp/gap2py/web2py/MANIFEST.in",
+		"/Users/zhulielie/zxpro/xhzxproadmin/xhzxpro/settings.py",
+		"/Users/zhulielie/zxpro/xhzxproadmin/xadmin/plugins/actions.py",
+		"/Users/zhulielie/Library/Application Support/Sublime Text 3/Packages/JsFormat/Default (OSX).sublime-keymap",
+		"/Users/zhulielie/Library/Application Support/Sublime Text 3/Packages/Terminal/Default (OSX).sublime-keymap",
+		"/Users/zhulielie/sklp_web/dazuozhan/dzz/models.py",
+		"/Users/zhulielie/sklp_web/dazuozhan/dzz/admin.py",
+		"/Users/zhulielie/sklp_web/dazuozhan/django/contrib/admin/templates/admin/base_site.html",
+		"/Users/zhulielie/sklp_web/dazuozhan/django/contrib/admin/static/admin/css/base.css",
+		"/Users/zhulielie/sklp_web/dazuozhan/django/contrib/admin/templates/admin/base.html",
+		"/Users/zhulielie/sklp_web/dazuozhan/dazuozhan/urls.py",
+		"/Users/zhulielie/sklp_web/dazuozhan/dzz/templates/huiyuan_helper.html",
+		"/Users/zhulielie/sklp_web/dazuozhan/dzz/templates/shouyin.html",
+		"/Users/zhulielie/sklp_web/dazuozhan/django/contrib/admin/templates/admin/change_list_results.html",
+		"/Users/zhulielie/sklp_web/dazuozhan/django/contrib/admin/templates/admin/object_history.html",
+		"/Users/zhulielie/sklp_web/dazuozhan/django/contrib/admin/templates/admin/index.html",
+		"/Users/zhulielie/sklp_web/dazuozhan/django/contrib/admin/templates/admin/edit_inline/tabular.html",
+		"/Users/zhulielie/Library/Application Support/Sublime Text 3/Packages/ColorPicker/ColorPicker.sublime-settings",
+		"/Users/zhulielie/Library/Application Support/Sublime Text 3/Packages/User/ColorPicker.sublime-settings",
+		"/Users/zhulielie/sklp_web/dazuozhan/dzz/templates/base_site.html",
+		"/Users/zhulielie/Library/Application Support/Sublime Text 3/Packages/HTML-CSS-JS Prettify/HTMLPrettify.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Users/zhulielie/learngp",
+			"/Users/zhulielie/sklp_web/dazuozhan/django/contrib/admin/templates",
+			"/Users/zhulielie/sklp_web/dazuozhan/django"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"name",
+			"size",
+			"allow",
+			"png",
+			"format",
+			"allow",
+			"alow",
+			"thefile",
+			"image_file",
+			"php",
+			"upload",
+			"发布",
+			"table",
+			"result_lis",
+			"hr",
+			"ji'lu'zai'an",
+			"记录在案",
+			"ji'lu'zai'an",
+			"actions",
+			"huiyuan",
+			"head",
+			"hre'ad",
+			"head",
+			"会员信息",
+			"admin",
+			"url",
+			"today",
+			"adm",
+			"admi",
+			"admin",
+			"base_site.html",
+			"liaotong"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "gap2py/web2py/applications/gap2py/controllers/service.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2396,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2122,
+								2122
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 391.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "learngp.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/zxpro/xhzxproadmin/xhzx.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 332.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

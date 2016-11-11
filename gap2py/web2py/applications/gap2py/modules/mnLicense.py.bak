@@ -91,7 +91,7 @@ class MNLicense():
         dict['DISK'] = card_searial.strip()
         # dict['OPT1'] = ""
         # dict['TYPE'] = "GAP"
-        interfaces = ["%s%s" % (y,x) for y in ['igb'] for x in range(0,20)]
+        interfaces = ["%s%s" % (y,x) for y in ['igb'] for x in range(0,8)]
         for x in range(len(interfaces)):
             mac = os.popen(
                 "%s %s lladdr | %s ether | %s '{print $2}'l" % (ifconfig, interfaces[x], grep, awk)).read().strip('\n')

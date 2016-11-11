@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 # 尝试
 from zcommon import *
-
+import logging  
 
 def index():
-
+    logging.debug('test')  
+    logging.info('test')  
     return dict(errortext='')
 
 
 
 def login_post():
+    logging.debug('test')  
+    logging.info('test')  
     username = str(request.vars.username).strip()
     password = str(request.vars.password).strip()
     rediurl = URL('login_error')

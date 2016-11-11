@@ -1,8 +1,9 @@
 import json
 import binascii
 import os
-import base64
-from Crypto.Cipher import AES
+import base64,platform
+if platform.system() == "FreeBSD":
+    from Crypto.Cipher import AES
 from pyDes import *
 
 

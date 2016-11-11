@@ -1,5 +1,7 @@
 import platform,json
-import time,os,paramiko
+import time,os
+if platform.system() == "FreeBSD":
+    import paramiko
 import threading,thread
 from mnLicense import MNLicense
 
@@ -370,13 +372,13 @@ def write_oa_router(config):
 
 
 
-    oacontent = '''echo '' > /etc/router.conf;\n'''
+    oacontent = '''echo '' > %s;\n''' % tmp_rc
     for i in config['router']:
         oacontent += '''echo 'route add %s %s %s' >> %s;\n''' % (
             i['network'], i['gateway'], i['netmask'],tmp_rc )
 
     if config['defaultgateway']:
-        oacontent += '''route add default %s >> %s;''' % (config['defaultgateway'], tmp_rc)
+        oacontent += '''echo 'route add default %s' >> %s;''' % (config['defaultgateway'], tmp_rc)
 
     if getplatform():
         try:

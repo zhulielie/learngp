@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html>
-
-
 <head>
 
     <meta charset="utf-8">
@@ -96,6 +94,15 @@
 
                     </ul>
                 </li>
+                                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">系统升级</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="#loginside">内网机日志</a></li>
+                        <li><a href="#logoutside">外网机日志</a></li>
+
+                    </ul>
+                </li>
                 <li>
                     <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">日志查看</span><span
                             class="fa arrow"></span></a>
@@ -119,6 +126,9 @@
 
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
+                    <li id="changt" title="点击修改">
+                        <span>系统时间:</span> <code id="systime">2014-11-11 11:11:11</code>
+                    </li>
                     <li>
                         <span class="m-r-sm text-muted welcome-message">中网驰云隔离网闸WEB管理 </span><code>v6.99</code>
                     </li>
@@ -1087,7 +1097,58 @@
                 </div>
             </div>
         </div>
+        <div id="authrule" class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>系统更新</h5>
 
+                        </div>
+                        <div class="ibox-content">
+                        <div class="contr">
+                        <h2>当前系统版本<code id="sys_version"> 5.55</code></h2>
+                        </div>
+                        <div class="upload_form_cont">
+                        <form id="upload_form" enctype="multipart/form-data" method="post" action="/gap2py/service/gap_newsystem">
+                        <div>
+                        <div><label for="image_file">请选择系统文件上传</label></div>
+                        <div><input type="file" name="image_file" id="image_file" onchange="fileSelected();" /></div>
+                        </div>
+                        <div>
+                        <input type="button" value="上传" onclick="startUploading()" />
+                        </div>
+                        <div id="fileinfo">
+                        <div id="filename"></div>
+                        <div id="filesize"></div>
+                        <div id="filetype"></div>
+                        <div id="filedim"></div>
+                        </div>
+                        <div id="error">You should select valid image files only!</div>
+                        <div id="error2">An error occurred while uploading the file</div>
+                        <div id="abort">The upload has been canceled by the user or the browser dropped the connection</div>
+                        <div id="warnsize">Your file is very big. We can't accept it. Please select more small file</div>
+                        <div id="progress_info">
+                        <div id="progress"></div>
+                        <div id="progress_percent">&nbsp;</div>
+                        <div class="clear_both"></div>
+                        <div>
+                        <div id="speed">&nbsp;</div>
+                        <div id="remaining">&nbsp;</div>
+                        <div id="b_transfered">&nbsp;</div>
+                        <div class="clear_both"></div>
+                        </div>
+                        <div id="upload_response"></div>
+                        </div>
+                        </form>
+                        <img id="preview" />
+                        </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="footer">
             <div class="pull-right">
                 <a class="btn btn-primary" href="#top">回到顶端</a>
@@ -1127,6 +1188,9 @@
 <script src="{{=URL('static','js/plugins/jasny/jasny-bootstrap.min.js') }}"></script>
 
 
+
+
+
 <!-- Custom and plugin javascript -->
 <script src="{{=URL('static','js/inspinia.js') }}"></script>
 <script src="{{=URL('static','js/plugins/pace/pace.min.js') }}"></script>
@@ -1138,6 +1202,7 @@
 
 
 <script src="{{=URL('static','js/zll.js') }}"></script>
+
 
 </body>
 

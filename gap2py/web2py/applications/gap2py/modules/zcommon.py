@@ -1,15 +1,17 @@
 import platform,json
-import time,os,paramiko
+import time,os
+if platform.system() == "FreeBSD":
+    import paramiko
 import threading,thread
 from mnLicense import MNLicense
 
 def getplatform():
-    return platform.system() == 'Darwin'
+    return platform.system() != 'FreeBSD'
 def dpath():
 
     tp = "/usr/nc-home/gap2py/web2py/applications/gap2py/static/"
     if getplatform():
-        tp = "/Users/zhulielie/PycharmProjects/gap2py/web2py/applications/gap2py/static/"
+        tp = "/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/static/"
     return tp
 
 def stop_gap():
@@ -104,7 +106,10 @@ def restart_gap():
 
 
 def license_passed():
-    return checkthelicense(getlicense())
+    if platform.system() == "FreeBSD":
+        return checkthelicense(getlicense())
+    else:
+        return True
 def rsetting():
     s = {}
     s['host'] = '2.2.2.2'
