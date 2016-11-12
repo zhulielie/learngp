@@ -69,15 +69,22 @@ def gap_set_time():
 #     else:
 #         return "%sB" % bytes
 
+def CalcMD5(filepath):
+    import hashlib
+    with open(filepath,'rb') as f:
+        md5obj = hashlib.md5()
+        md5obj.update(f.read())
+        hash = md5obj.hexdigest()
+        print(hash)
+        return hash
 def gap_newsystem():
     
-    sFileName = request.post_vars['image_file'].name
-    sFileType = request.post_vars['image_file'].type
-    xx = request.post_vars['image_file'].file
-    file_ = open('newsystem.docx', 'w')
-    # file_ = open('newsystem.%s' % str(sFileType), 'w')
-    for x in xx.readlines():
+
+    
+    file_ = open('newsystem.tar.gz', 'w')
+    for x in request.post_vars['image_file'].file.readlines():
         file_.write(x)
     file_.close()
-    return '''<p>Your file: %s has been successfully received.</p><p>Type: %s</p>''' % (sFileName,sFileType)
+    
+    return '''<p>上传完毕！MD5验证码：%s</p>''' % CalcMD5('newsystem.tar.gz')
     

@@ -20,7 +20,7 @@ def login_post():
         try:
             s = getusers()
             if username == str(s['username']):
-                print str(s['username'])
+                
                 import hashlib
                 m2 = hashlib.md5()
                 m2.update(password)

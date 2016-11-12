@@ -1102,12 +1102,12 @@
                 <div class="col-lg-12">
                     <div class="ibox">
                         <div class="ibox-title">
-                            <h5>系统更新</h5>
+                            <h5>系统更新 当前系统版本<code id="sys_version"> 5.55</code></h5>
 
                         </div>
                         <div class="ibox-content">
                         <div class="contr">
-                        <h2>当前系统版本<code id="sys_version"> 5.55</code></h2>
+                        
                         </div>
                         <div class="upload_form_cont">
                         <form id="upload_form" enctype="multipart/form-data" method="post" action="/gap2py/service/gap_newsystem">
@@ -1116,18 +1116,14 @@
                         <div><input type="file" name="image_file" id="image_file" onchange="fileSelected();" /></div>
                         </div>
                         <div>
-                        <input type="button" value="上传" onclick="startUploading()" />
+                        <input type="button" value="上传" onclick="startUploading()" id="StartUploading" style="margin-left: 50px"/>
+                        <input type="button" value="升级" onclick="needUpdate()" id="NeedUpdate" style="margin-left: 250px"/>
                         </div>
-                        <div id="fileinfo">
-                        <div id="filename"></div>
-                        <div id="filesize"></div>
-                        <div id="filetype"></div>
-                        <div id="filedim"></div>
-                        </div>
-                        <div id="error">You should select valid image files only!</div>
-                        <div id="error2">An error occurred while uploading the file</div>
-                        <div id="abort">The upload has been canceled by the user or the browser dropped the connection</div>
-                        <div id="warnsize">Your file is very big. We can't accept it. Please select more small file</div>
+   
+                        <div id="error">文件错误!系统更新文件名为:<code>newsys.bin</code></div>
+                        <div id="error2">在上传的工程中出现问题！</div>
+                        <div id="abort">上传被取消或者是浏览器故障!</div>
+                        <div id="warnsize">文件过大！</div>
                         <div id="progress_info">
                         <div id="progress"></div>
                         <div id="progress_percent">&nbsp;</div>
@@ -1141,7 +1137,7 @@
                         <div id="upload_response"></div>
                         </div>
                         </form>
-                        <img id="preview" />
+                        
                         </div>
                         </div>
 
