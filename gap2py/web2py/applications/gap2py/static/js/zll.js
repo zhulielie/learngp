@@ -151,7 +151,41 @@ nints = function (netname, v) {
     return ss
 }
 
+arpline = function (beizhu, ip, mac) {
+    if (name) {
 
+        mos = ""
+        ss = ['   <tr class="zll_json"> ',
+                '  <td></td>',
+                '     <td> <input type="text" class="form-control ip" zll-type="ipv4" maxlength="15" placeholder="" tabindex="1" value="' + ip + '"/></td> ',
+                '     <td> <input type="text" class="form-control mac"  maxlength="17" placeholder="" tabindex="2" value="' + mac + '"/></td> ',
+                '     <td> <input type="text" class="form-control comment"  maxlength="32" tabindex="3" placeholder="" value="' + beizhu + '" /></td> ',
+                '     <td> ',
+                '      <div class="btn-group"> ',
+                '       <button class="btn btn-danger something-delete" zll-name="Arp绑定" type="button"> <i class="fa fa-times"></i>删除绑定</button> ',
+                '      </div></td>',
+                '    </tr> '].join("");
+        return ss
+    }
+    else {
+        mos = '新'
+        style = "label-warning"
+       ss = ['   <tr class="new zll_json"> ',
+        '  <td>',
+        '    <span class="label ' + style + ' pull-right">' + mos + '</span></td>',
+        '     <td> <input type="text" class="form-control ip" zll-type="ipv4" maxlength="15" placeholder="例如: 1.1.1.1" tabindex="1" /></td> ',
+        '     <td> <input type="text" class="form-control mac"  maxlength="17" placeholder="例如: aa:aa:aa:aa:aa:aa" tabindex="2" /></td> ',
+        '     <td> <input type="text" class="form-control comment"  maxlength="32" tabindex="3" placeholder="" /></td> ',
+        '     <td> ',
+        '      <div class="btn-group"> ',
+        '       <button class="btn btn-danger something-delete" zll-name="Arp绑定" type="button"> <i class="fa fa-times"></i>删除绑定</button> ',
+        '      </div></td>',
+        '    </tr> '].join("");
+        return ss
+
+    }
+
+}
 gapline = function (name, myadr, myport, hisadr, hisport) {
     if (name) {
 
@@ -208,6 +242,8 @@ gapline = function (name, myadr, myport, hisadr, hisport) {
     }
 
 }
+
+
 hsline = function (adr, netmask, gid, master, on) {
     var gid_shuzu = new Array();
     $.each($(".hs_gid"), function (s, m) {
@@ -1244,6 +1280,11 @@ $(document).ready(function () {
     $(document).on("click", ".gapline-add", function () {
         $(this).parent().parent().find('tbody').append(gapline())
     });
+    $(document).on("click", ".arp-add", function () {
+        $(this).parent().parent().find('tbody').append(arpline())
+    });
+
+
     $(document).on("click", ".hsline-add", function () {
         var check1 = new Array();
         var check2 = new Array();

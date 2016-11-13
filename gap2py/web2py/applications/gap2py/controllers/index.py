@@ -28,6 +28,7 @@ def something():
     d['cpugetstr'] = '''vmstat | sed -n '3p' | awk '{print $17}' | tr -s " "'''
     d['memstr'] = '''vmstat | sed -n '3p' | awk '{print $5}' | tr -s " "'''
     d['uptimestr'] = '''uptime | awk '{print $1" "$2" "$3$4$5}' | tr -s " "'''
+    d['arp'] = '''arp -an'''
     return d
 
 
@@ -41,6 +42,24 @@ def get_config():
             print e
         finally:
             f.close()
+    else:
+        return redirect('/gap2py/login/index')
+
+    return sj.dumps(s)
+
+def get_arp():
+    user = session.user or ''
+    if user:
+        lines = commands.getoutput(something()['cpugetstr'])
+        import commands
+        lines = commands.getoutput("arp -an")
+        a = []
+        i = ['?','[','[','(',')','in','secs','on','at']
+        for l in lines.split('\n'):
+ 
+            map(lambda x: x.replace(), mylist)
+            print l
+
     else:
         return redirect('/gap2py/login/index')
 

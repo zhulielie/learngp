@@ -60,31 +60,21 @@ def gap_set_time():
             time = request.post_vars.time
             os.system("date %s" % time)
     return sj.dumps(data)
-# def bytesToSize1024(bytes, precision = 2):
-#     import math
-#     unit = ('B','KB','MB')
-#     if bytes >=1024:
-#         i = math.floor(math.log(bytes, 1024))
-#         return "%s%s" % (round(bytes / math.pow(1024, i), precision),unit[int(i)-1])
-#     else:
-#         return "%sB" % bytes
 
-def CalcMD5(filepath):
-    import hashlib
-    with open(filepath,'rb') as f:
-        md5obj = hashlib.md5()
-        md5obj.update(f.read())
-        hash = md5obj.hexdigest()
-        print(hash)
-        return hash
+
+
+
+
 def gap_newsystem():
-    
+    user = session.get('user', '')
+    data = {'succ': False}
+    if user:
 
     
-    file_ = open('newsystem.tar.gz', 'w')
-    for x in request.post_vars['image_file'].file.readlines():
-        file_.write(x)
-    file_.close()
-    
-    return '''<p>上传完毕！MD5验证码：%s</p>''' % CalcMD5('newsystem.tar.gz')
-    
+        file_ = open('newsystem.tar.gz', 'w')
+        for x in request.post_vars['image_file'].file.readlines():
+            file_.write(x)
+        file_.close()
+        
+        return '''<p>上传完毕！MD5验证码：%s,</p>''' % CalcMD5('newsystem.tar.gz')
+    return sj.dumps(data)

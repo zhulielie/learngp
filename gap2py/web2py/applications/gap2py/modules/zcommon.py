@@ -21,7 +21,14 @@ def stop_gap():
         os.system("shutdown -p now")
     except Exception as e:
         print e
-
+def CalcMD5(filepath):
+    import hashlib
+    with open(filepath,'rb') as f:
+        md5obj = hashlib.md5()
+        md5obj.update(f.read())
+        hash = md5obj.hexdigest()
+        print(hash)
+        return hash
 def something():
     d = {}
     d['diskstr'] = '''df -h | grep replace | head -n 1 | awk '{print $5}' | tr -s " "'''
