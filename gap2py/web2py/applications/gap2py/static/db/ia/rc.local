@@ -1,15 +1,15 @@
-if [ -f /usr/nc-home/baktgz/patch.tgz ]; then
-	tar xzfP /usr/nc-home/baktgz/patch.tgz
-	rm /usr/nc-home/baktgz/patch.tgz
+if [ -f /usr/midnet/baktgz/patch.tgz ]; then
+	tar xzfP /usr/midnet/baktgz/patch.tgz
+	rm /usr/midnet/baktgz/patch.tgz
 fi
 ifconfig em4 up
 sleep 2
 ifconfig em5 up
 sleep 2
-ln -s /usr/nc-home/local /usr/local
-ln -s /usr/nc-home/libstdc++.so.6 /usr/lib/libstdc++.so.6
-ln -s /usr/nc-home/uniq /usr/bin/uniq
+ln -s /usr/midnet/local /usr/local
+ln -s /usr/midnet/libstdc++.so.6 /usr/lib/libstdc++.so.6
+ln -s /usr/midnet/uniq /usr/bin/uniq
 sysctl -w hw.owd_recvif=em5
 sysctl -w hw.owd_sendif=em5
-cd /usr/nc-home/bin/ && ./prog.sh &
-/usr/nc-home/bin/db.sh
+cd /usr/midnet/bin/ && ./prog.sh &
+/usr/midnet/bin/db.sh

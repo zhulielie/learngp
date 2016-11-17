@@ -18,7 +18,7 @@ sys.path = [path] + [p for p in sys.path if not p == path]
 if platform.system() == 'Darwin':
     sys.path.append("/Users/zhulielie/PycharmProjects/gap2py")
 else:
-    sys.path.append("/usr/nc-home/gap2py")
+    sys.path.append("/usr/midnet/gap2py")
 # important that this import is after the os.chdir
 
 import gluon.widget

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-/usr/local/bin/supervisord -c /usr/nc-home/gap2py/supervisor.conf
+/usr/local/bin/supervisord -c /usr/midnet/gap2py/supervisor.conf

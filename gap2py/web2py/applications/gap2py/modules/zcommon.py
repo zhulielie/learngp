@@ -1,5 +1,5 @@
-import platform,json
-import time,os
+import platform,json,time,os,socket
+
 if socket.gethostname() == "mnia":
     import paramiko
 import threading,thread
@@ -9,7 +9,7 @@ def getplatform():
     return socket.gethostname() != 'mnia'
 def dpath():
 
-    tp = "/usr/nc-home/gap2py/web2py/applications/gap2py/static/"
+    tp = "/usr/midnet/gap2py/web2py/applications/gap2py/static/"
     if getplatform():
         tp = "/Users/zhulielie/learngp/gap2py/web2py/applications/gap2py/static/"
     return tp
@@ -436,7 +436,7 @@ def write_oa_sox(config):
     if getplatform():
         tmp_sox = open("%s%s" % (dpath(), "db/oa/nsox.cf"), "w")
     else:
-        tmp_sox = '/usr/nc-home/sox/nsox.cf'
+        tmp_sox = '/usr/midnet/sox/nsox.cf'
 
 
     flag_type = config['dt']['rd']
@@ -592,9 +592,9 @@ def write_ia_sox(config):
             print config['dt']['rt']
             if config['dt']['rt'] == 0:
 
-                bsdfile_router = open("/usr/nc-home/sox/nsox.cf", "w")
+                bsdfile_router = open("/usr/midnet/sox/nsox.cf", "w")
             else:
-                bsdfile_router = open("/usr/nc-home/sox/sox.conf", "w")
+                bsdfile_router = open("/usr/midnet/sox/sox.conf", "w")
 
 
         iacontent = ''

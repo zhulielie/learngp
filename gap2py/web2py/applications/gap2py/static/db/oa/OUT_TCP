@@ -1,1 +1,1 @@
-echo 'SERVER=33.3.3.3:55-22.2.2.2:22' > /usr/nc-home/sox/OUT_TCP;
+echo 'SERVER=33.3.3.3:55-22.2.2.2:22' > /usr/midnet/sox/OUT_TCP;
