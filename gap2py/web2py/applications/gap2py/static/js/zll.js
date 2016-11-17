@@ -20,63 +20,47 @@ startorstop = function (c) {
 
 var debug = true
 var svb = true
-address = function (mos, alname, adr, netmask) {
+address = function (mos, alname, adr, netmask,n) {
 
     if (mos == '从')
+    {
         style = "label-info"
+        style_d = "bgcolor-info"
+    }
+    
     else if (mos == '主')
+    {
         style = "label-primary"
+        style_d = "bgcolor-primary"
+    }
     else {
         mos = '新'
         style = "label-warning"
+        style_d = "bgcolor-warning"
     }
-    if (alname) {
-
-        sss = ['<tr zll_name="' + alname + '" class=" zll_json">',
-            '  <td>',
-            '    <span class="label ' + style + ' pull-right">' + mos + '</span>IP地址</td>',
-            '  <td>',
-            '    <input type="text" class="form-control adr" zll-type="ipv4" maxlength="15" placeholder="IP地址" tabindex=1 value="' + adr + '"></td>',
-            '  <td>子网掩码</td>',
-            '  <td>',
-            '    <input type="text" class="form-control netmask" zll-type="ipv4" maxlength="15" placeholder="255.255.255.255"  tabindex=1 value="' + netmask + '"></td>',
-            '  <td>',
-            '    <div class="btn-group">',
-            '      <button class="btn btn-warning   address-clean" title="清空地址" type="button">',
-            '        <i class="fa fa-ban"></i>清空地址</button>',
-            '      <button class="btn btn-danger    something-delete " zll-name="从地址" type="button">',
-            '        <i class="fa fa-times"></i>删除地址</button>',
-            '    </div>',
-            '  </td>',
-            '</tr>'].join("");
-
-
-        return sss
-
+    moreclass = ''
+    if (n == 'new')
+    {
+        moreclass = 'new'
     }
-    else {
-        sss = ['<tr zll_name="' + alname + '" class="new zll_json">',
-            '  <td>',
-            '    <span class="label ' + style + ' pull-right">' + mos + '</span>IP地址</td>',
-            '  <td>',
-            '    <input type="text" class="form-control adr" zll-type="ipv4" maxlength="15" placeholder="IP地址" tabindex=1 ></td>',
-            '  <td>子网掩码</td>',
-            '  <td>',
-            '    <input type="text" class="form-control netmask" zll-type="ipv4" maxlength="15" placeholder="255.255.255.255"  tabindex=1 ></td>',
-            '  <td>',
-            '    <div class="btn-group">',
-            '      <button class="btn btn-warning   address-clean" title="清空地址" type="button">',
-            '        <i class="fa fa-ban"></i>清空地址</button>',
-            '      <button class="btn btn-danger    something-delete " zll-name="从地址" type="button">',
-            '        <i class="fa fa-times"></i>删除地址</button>',
-            '    </div>',
-            '  </td>',
-            '</tr>'].join("");
+    
+    sss = ['<tr zll_name="' + alname + '" class="'+moreclass+' zll_json">',
+        '  <td><div class="input-group"><div class="input-group-addon ' +style_d+'"><label title="'+mos+'地址" class=" label '+style+'">IP地址</label></div><input type="text" class="form-control adr" zll-type="ipv4" maxlength="15" placeholder=""  exg="192.168.1.1" tabindex=1 value="' + adr + '"></div></td>',
+        '  <td><div class="input-group"><div class="input-group-addon ' +style_d+'"><label class=" label '+style+'">子网掩码</label></div><input type="text" class="form-control netmask" zll-type="ipv4" maxlength="15" placeholder="" exg="255.255.255.0"tabindex=1 value="' + netmask + '"></div></td>',
+        '  <td>',
+        '    <div class="btn-group">',
+        '      <button class="btn btn-warning   address-clean" title="清空地址" type="button">',
+        '        <i class="fa fa-ban"></i>清空</button>',
+        '      <button class="btn btn-danger    something-delete " zll-name="从地址" type="button">',
+        '        <i class="fa fa-times"></i></button>',
+        '    </div>',
+        '  </td>',
+        '</tr>'].join("");
 
 
-        return sss
+    return sss
 
-    }
+    
 }
 
 
@@ -84,18 +68,13 @@ router = function (network, netmask, gateway) {
     if (network) {
         ss = ['<tr class="zll_json">',
             '  <td>目标网络IP</td>',
-            '  <td>',
-            '    <input type="text" class="form-control network" zll-type="ipv4" maxlength="15" placeholder="IP地址" tabindex=1 value="' + network + '"></td>',
-            '  <td>子网掩码</td>',
-            '  <td>',
-            '    <input type="text" class="form-control netmask" zll-type="ipv4" maxlength="15" placeholder="255.0.0.0" tabindex=1 value="' + netmask + '"></td>',
-            '  <td>网关地址</td>',
-            '  <td>',
-            '    <input type="text" class="form-control gateway" zll-type="ipv4" maxlength="15" placeholder="IP地址" tabindex=1 value="' + gateway + '"></td>',
+            '  <td><div class="input-group"><div class="input-group-addon">目标</div><input type="text" class="form-control network" zll-type="ipv4" maxlength="15" placeholder=""  exg="192.168.1.1" tabindex=1 value="' + network + '"></div></td>',
+            '  <td><div class="input-group"><div class="input-group-addon">子网掩码</div><input type="text" class="form-control netmask" zll-type="ipv4" maxlength="15" placeholder=""  exg="255.0.0.0" tabindex=1 value="' + netmask + '"></div></td>',
+            '  <td><div class="input-group"><div class="input-group-addon">网关</div><input type="text" class="form-control gateway" zll-type="ipv4" maxlength="15" placeholder=""  exg="192.168.1.1" tabindex=1 value="' + gateway + '"></div></td>',
             '  <td>',
             '    <div class="btn-group">',
             '      <button class="btn btn-danger something-delete" zll-name="路由" type="button">',
-            '        <i class="fa fa-times"></i>删除路由</button>',
+            '        <i class="fa fa-times"></i></button>',
             '    </div>',
             '  </td>',
             '</tr>'].join("");
@@ -106,24 +85,17 @@ router = function (network, netmask, gateway) {
 
     }
     else {
-        mos = "新"
+        mos = "<code>新</code>"
         style = "label-warning"
 
         ss = ['<tr class="new zll_json">',
-            '  <td>',
-            '    <span class="label' + style + 'pull-right">' + mos + '</span>目标网络IP</td>',
-            '  <td>',
-            '    <input type="text" class="form-control network" zll-type="ipv4" maxlength="15" placeholder="IP地址"  tabindex=1 ></td>',
-            '  <td>子网掩码</td>',
-            '  <td>',
-            '    <input type="text" class="form-control netmask" zll-type="ipv4" maxlength="15" placeholder="255.0.0.0"  tabindex=1 ></td>',
-            '  <td>网关地址</td>',
-            '  <td>',
-            '    <input type="text" class="form-control gateway" zll-type="ipv4" maxlength="15" placeholder="IP地址"  tabindex=1 ></td>',
+            '  <td><div class="input-group"><div class="input-group-addon">'+ mos +'目标</div><input type="text" class="form-control network" zll-type="ipv4" maxlength="15" placeholder=""  exg="192.168.1.1" tabindex=1 ></div></td>',
+            '  <td><div class="input-group"><div class="input-group-addon">子网掩码</div><input type="text" class="form-control netmask" zll-type="ipv4" maxlength="15" placeholder="" exg="255.0.0.0" tabindex=1 ></div></td>',
+            '  <td><div class="input-group"><div class="input-group-addon">网关</div><input type="text" class="form-control gateway" zll-type="ipv4" maxlength="15" placeholder="" exg="192.168.1.1" tabindex=1 ></div></td>',
             '  <td>',
             '    <div class="btn-group">',
             '      <button class="btn btn-danger something-delete" zll-name="路由" type="button">',
-            '        <i class="fa fa-times"></i>删除路由</button>',
+            '        <i class="fa fa-times"></i></button>',
             '    </div>',
             '  </td>',
             '</tr>'].join("");
@@ -140,7 +112,7 @@ nints = function (netname, v) {
     ss = ['<div zll_int="lan' + v + '" class="panel panel-default lan' + v + '">',
         '  <div class="panel-heading">' + netname + '',
         '    <button class="btn btn-primary   address-add" type="button">',
-        '      <i class="fa fa-plus"></i>增加地址</button></div>',
+        '      <i class="fa fa-plus"></i> 地址</button></div>',
         '  <div class="panel-body">',
         '    <table class="table table-striped  table-condensed tb_adr">',
         '      <tbody></tbody>',
@@ -151,18 +123,64 @@ nints = function (netname, v) {
     return ss
 }
 
-arpline = function (beizhu, ip, mac) {
-    if (name) {
+isValidMacAddress =function(address) {  
+   var c = '';  
+   var i = 0, j = 0;  
+  
+    if ((address.toLowerCase() == 'ff:ff:ff:ff:ff:ff') || (address.toLowerCase() == '00:00:00:00:00:00')) {  
+         // console.log(广播地址)
+         return false;  
+   }  
+  
+   var addrParts = address.split(':');  
+   if (addrParts.length != 6) {  
+       // console.log(i+'少了')
+        return false;  
+   }  
+   for (i = 0; i < 6; i++){  
+        if (addrParts[i] == ''){  
+             // console.log(i+'不能空着')
+             return false;  
+        }  
+     if (addrParts[i].length != 2) {  
+       // console.log(i+'位数不对')
+        return false;  
+   }  
+   for (j = 0; j < addrParts[i].length; j++) {  
+        c = addrParts[i].toLowerCase().charAt(j);  
+        if ((c >= '0' && c <= '9') || (c >= 'a' && c <='f')) {  
+             continue;  
+        } else {  
+             // console.log(i+'自负不对')
+             return false;  
+        }  
+   }  
+    v= parseInt(addrParts[i], 16)
+      if (v<0 || v>255) {  
+        // console.log(i+" >= 15")
+        return false;  
+    }  
+   }  
+  
+ 
+
+  
+
+  
+   return true;  
+}  
+arpline = function (comment, ip, mac) {
+    if (ip && mac) {
 
         mos = ""
         ss = ['   <tr class="zll_json"> ',
                 '  <td></td>',
-                '     <td> <input type="text" class="form-control ip" zll-type="ipv4" maxlength="15" placeholder="" tabindex="1" value="' + ip + '"/></td> ',
-                '     <td> <input type="text" class="form-control mac"  maxlength="17" placeholder="" tabindex="2" value="' + mac + '"/></td> ',
-                '     <td> <input type="text" class="form-control comment"  maxlength="32" tabindex="3" placeholder="" value="' + beizhu + '" /></td> ',
+                '     <td> <input type="text" class="form-control ip" zll-type="ipv4" maxlength="15" placeholder="" exg="192.168.1.1" tabindex="1" value="' + ip + '"/></td> ',
+                '     <td> <input type="text" class="form-control mac" zll-type="mac" maxlength="17" placeholder="" exg="11:11:11:11:11:11" tabindex="1" value="' + mac + '"/></td> ',
+                '     <td> <input type="text" class="form-control comment"  maxlength="32" tabindex="3" placeholder="" value="' + comment + '" /></td> ',
                 '     <td> ',
                 '      <div class="btn-group"> ',
-                '       <button class="btn btn-danger something-delete" zll-name="Arp绑定" type="button"> <i class="fa fa-times"></i>删除绑定</button> ',
+                '       <button class="btn btn-danger something-delete" zll-name="Arp绑定" type="button"> <i class="fa fa-times"></i></button> ',
                 '      </div></td>',
                 '    </tr> '].join("");
         return ss
@@ -173,12 +191,12 @@ arpline = function (beizhu, ip, mac) {
        ss = ['   <tr class="new zll_json"> ',
         '  <td>',
         '    <span class="label ' + style + ' pull-right">' + mos + '</span></td>',
-        '     <td> <input type="text" class="form-control ip" zll-type="ipv4" maxlength="15" placeholder="例如: 1.1.1.1" tabindex="1" /></td> ',
-        '     <td> <input type="text" class="form-control mac"  maxlength="17" placeholder="例如: aa:aa:aa:aa:aa:aa" tabindex="2" /></td> ',
+        '     <td> <input type="text" class="form-control ip" zll-type="ipv4" maxlength="15" placeholder="" exg="192.168.1.1" tabindex="1" /></td> ',
+        '     <td> <input type="text" class="form-control mac"  zll-type="mac" maxlength="17" placeholder="" exg="11:11:11:11:11:11"  tabindex="1" /></td> ',
         '     <td> <input type="text" class="form-control comment"  maxlength="32" tabindex="3" placeholder="" /></td> ',
         '     <td> ',
         '      <div class="btn-group"> ',
-        '       <button class="btn btn-danger something-delete" zll-name="Arp绑定" type="button"> <i class="fa fa-times"></i>删除绑定</button> ',
+        '       <button class="btn btn-danger something-delete" zll-name="Arp绑定" type="button"> <i class="fa fa-times"></i></button> ',
         '      </div></td>',
         '    </tr> '].join("");
         return ss
@@ -186,56 +204,37 @@ arpline = function (beizhu, ip, mac) {
     }
 
 }
+
+
 gapline = function (name, myadr, myport, hisadr, hisport) {
     if (name) {
-
-        mos = ""
         ss = ['<tr class="zll_json">',
-            '  <td>',
-            '    <span class="label ' + style + ' pull-right">' + mos + '</span>',
-            '  </td>',
-            '  <td>',
-            '    <input type="text" placeholder="名称" maxlength="8" class="form-control rule_name" tabindex=1  value="' + name + '"></td>',
-            '  <td>',
-            '    <input type="text" class="form-control rule_myadr" zll-type="ipv4" maxlength="15"  tabindex=1  placeholder="IP地址" value="' + myadr + '"></td>',
-            '  <td>',
-            '    <input type="text" placeholder="端口号" zll-type="port" value="' + myport + '" maxlength="5" tabindex=1  class="form-control rule_myport"></td>',
-            '  <td>',
-            '    <input type="text" class="form-control rule_hisadr" zll-type="ipv4" maxlength="15" tabindex=1  value="' + hisadr + '" placeholder="IP地址"></td>',
-            '  <td>',
-            '    <input type="text" placeholder="端口号" value="' + hisport + '" zll-type="port" tabindex=1  maxlength="5" class="form-control rule_hisport"></td>',
-            '  <td>',
-            '    <div class="btn-group">',
-            '      <button class="btn btn-danger    something-delete " zll-name="策略" type="button">',
-            '        <i class="fa fa-times"></i>删除策略</button>',
-            '    </div>',
-            '  </td>',
+            '  <td><input type="text" placeholder="名称" maxlength="8" class="form-control rule_name" tabindex=1  value="' + name + '"></td>',
+            '  <td><select class="form-control"><option>TCP</option><option>UDP</option></select></td>',
+            '  <td><input type="text" class="form-control rule_myadr" zll-type="ipv4" maxlength="15"  tabindex=1  placeholder="" exg="192.168.1.1" value="' + myadr + '"></td>',
+            '  <td><input type="text" class="form-control rule_myadr" zll-type="mac" maxlength="17"  tabindex=1  placeholder="" exg="11:11:11:11:11:11" value=""></td>',
+            '  <td><input type="text" placeholder="" zll-type="port" value="' + myport + '" maxlength="5" tabindex=1  exg="80" class="form-control rule_myport"></td>',
+            '  <td><input type="text" class="form-control rule_myadr" zll-type="ipv4" maxlength="15"  tabindex=1  placeholder="" exg="192.168.1.1" value="' + myadr + '"></td>',
+            '  <td><input type="text" placeholder="" zll-type="port" value="' + myport + '" maxlength="5" tabindex=1  exg="80" class="form-control rule_myport"></td>',
+            '  <td><input type="text" class="form-control rule_hisadr" zll-type="ipv4" maxlength="15" tabindex=1  exg="192.168.1.1" value="' + hisadr + '" placeholder=""></td>',
+            '  <td><input type="text" placeholder="" value="' + hisport + '" zll-type="port" tabindex=1   exg="80" maxlength="5" class="form-control rule_hisport"></td>',
+            '  <td><button class="btn btn-danger    something-delete " zll-name="策略" type="button"><i class="fa fa-times"></i></button></td>',
             '</tr>'].join("");
 
         return ss
     }
     else {
-        mos = '新'
-        style = "label-warning"
         ss = ['<tr class="new zll_json">',
-            '  <td>',
-            '    <span class="label ' + style + ' pull-right">' + mos + '</span></td>',
-            '  <td>',
-            '    <input type="text" placeholder="名称" maxlength="8" tabindex=1 class="form-control rule_name"></td>',
-            '  <td>',
-            '    <input type="text" class="form-control rule_myadr" tabindex=1 zll-type="ipv4" maxlength="15" placeholder="IP地址"></td>',
-            '  <td>',
-            '    <input type="text" placeholder="端口号" zll-type="port" tabindex=1 maxlength="5" class="form-control rule_myport"></td>',
-            '  <td>',
-            '    <input type="text" class="form-control rule_hisadr" tabindex=1 zll-type="ipv4" maxlength="15" placeholder="IP地址"></td>',
-            '  <td>',
-            '    <input type="text" placeholder="端口号" zll-type="port" tabindex=1 maxlength="5" class="form-control rule_hisport"></td>',
-            '  <td>',
-            '    <div class="btn-group">',
-            '      <button class="btn btn-warning   something-delete " zll-name="策略" type="button">',
-            '        <i class="fa fa-times"></i>删除策略</button>',
-            '    </div>',
-            '  </td>',
+            '  <td><input type="text" placeholder="名称" maxlength="8" tabindex=1 class="form-control rule_name" ></td>',
+            '  <td><select class="form-control"><option>TCP</option><option>UDP</option></select></td>',
+            '  <td><input type="text" class="form-control rule_myadr" tabindex=1 zll-type="ipv4" maxlength="15"  exg="192.168.1.1" placeholder=""></td>',
+            '  <td><input type="text" class="form-control rule_myadr" tabindex=1 zll-type="mac" maxlength="17"  exg="11:11:11:11:11:11" placeholder=""></td>',
+            '  <td><input type="text" placeholder=""  zll-type="port" tabindex=1 maxlength="5"  exg="80" class="form-control rule_myport"></td>',
+            '  <td><input type="text" class="form-control rule_myadr" tabindex=1 zll-type="ipv4" maxlength="15"  exg="192.168.1.1" placeholder=""></td>',
+            '  <td><input type="text" placeholder=""  zll-type="port" tabindex=1 maxlength="5"  exg="80" class="form-control rule_myport"></td>',
+            '  <td><input type="text" class="form-control rule_hisadr" tabindex=1 zll-type="ipv4" maxlength="15"  exg="192.168.1.1" placeholder=""></td>',
+            '  <td><input type="text" placeholder=""  zll-type="port" tabindex=1 maxlength="5"  exg="80" class="form-control rule_hisport"></td>',
+            '  <td><button class="btn btn-danger    something-delete " zll-name="策略" type="button"><i class="fa fa-times"></i></button></td>',
             '</tr>'].join("");
         return ss
 
@@ -280,9 +279,9 @@ hsline = function (adr, netmask, gid, master, on) {
             '    <span class="label ' + style + ' pull-right">' + mos + '</span>',
             '  </td>',
             '  <td>',
-            '    <input type="text" zll-type="ipv4" maxlength="15" tabindex=1 placeholder="虚拟IP" value="' + adr + '" class="form-control hs_adr"></td>',
+            '    <input type="text" zll-type="ipv4" maxlength="15"  exg="192.168.1.1" tabindex=1 placeholder="" value="' + adr + '" class="form-control hs_adr"></td>',
             '  <td>',
-            '    <input type="text" placeholder="子网掩码" zll-type="ipv4" tabindex=1 maxlength="15" value="' + netmask + '" class="form-control hs_netmask"></td>',
+            '    <input type="text" placeholder="子网掩码" zll-type="ipv4"  exg="255.255.255.0" tabindex=1 maxlength="15" value="' + netmask + '" class="form-control hs_netmask"></td>',
             '  <td>',
             select_gid,
             '  </td>',
@@ -315,9 +314,9 @@ hsline = function (adr, netmask, gid, master, on) {
             '  <td>',
             '    <span class="label ' + style + ' pull-right">' + mos + '</span></td>',
             '  <td>',
-            '    <input type="text" zll-type="ipv4" maxlength="15" placeholder="虚拟IP" class="form-control hs_adr"></td>',
+            '    <input type="text" zll-type="ipv4" maxlength="15" placeholder="虚拟IP" exg="192.168.1.1"class="form-control hs_adr"></td>',
             '  <td>',
-            '    <input type="text" placeholder="子网掩码" zll-type="ipv4" maxlength="15" class="form-control hs_netmask"></td>',
+            '    <input type="text" placeholder="子网掩码" zll-type="ipv4" maxlength="15" exg="255.255.255.0"class="form-control hs_netmask"></td>',
             '  <td>',
             select_gid,
             '  </td>',
@@ -354,6 +353,12 @@ function checkINPUT(valid, value) {
         else
             return true;
     }
+
+    if(valid == 'mac')
+    {
+        return isValidMacAddress(value)
+    }
+
 }
 
 function getstatus() {
@@ -421,18 +426,20 @@ getconfig = function () {
                 var ints = eval('data.' + m + '.interface');
 
                 $.each(ints, function (i, val) {
+
+  
                     if (val.name) {
                         var em = val.name.split('_');
+                        var tbody = $("." + m + " ." + em[0] + " .tb_adr tbody")[0]
                         var mos = "主";
                         if (em.length > 1)
                             mos = "从";
-                        var tbody = $("." + m + " ." + em[0] + " .tb_adr tbody")[0]
-
-
+                    
                         var htm = address(mos, val.name, val.adr, val.netmask);
                         $(htm).appendTo(tbody)
 
                     }
+        
 
                 })
 
@@ -468,7 +475,7 @@ getconfig = function () {
 
             });
 
-            var rs = ["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA", "IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"];
+            var rs = ["OUT","IN"];
 
 
             $.each(rs, function (i, rule) {
@@ -502,11 +509,14 @@ getconfig = function () {
 
 
                 })
+
             })
+
 
 
         }
     });
+
 
 }
 
@@ -662,6 +672,7 @@ createconfig_new = function () {
         jSing.create(newconfig, mash, {
             "interface": [],
             "router": [],
+            "arp":[],
             "defaultgateway": "",
             "hs": {}
         });
@@ -765,7 +776,7 @@ createconfig_new = function () {
     });
 
 
-    $.each(["OUT_TCP", "OUT_UDP", "OUT_FTP", "OUT_ORA", "IN_TCP", "IN_UDP", "IN_FTP", "IN_ORA"], function (i, rule) {
+    $.each(["OUT", "IN"], function (i, rule) {
 
 
         if ($($("." + rule + " .status")[0]).text() == "启用")
@@ -881,7 +892,7 @@ need_restart_set = function () {
 setgaptime = function (){
 
 
-  $.getJSON('/gap2py/service/gap_time', {}, function (data) {
+  $.getJSON('/gap2py/index/gap_time', {}, function (data) {
         if (data.succ) {
 
             $("#systime").text(data.time)
@@ -1071,6 +1082,8 @@ $(document).ready(function () {
         text: "例: <code>201611111111</code> 表示 <code>2016-11-11 11:11:00</code>", 
           type: "input",  
            showCancelButton: true, 
+           confirmButtonText:'确定',
+           cancelButtonText:'取消',
            html:true,
             closeOnConfirm: false, 
               animation: "slide-from-top",  
@@ -1204,26 +1217,30 @@ $(document).ready(function () {
 
     $(document).on("click", ".address-add", function () {
         lasttr = $(this).parent().parent().find('tbody > tr:last-child')
-
+        //console.log(lasttr.html())
         intname = $(this).parent().parent().attr('zll_int')
-
-        if (lasttr.hasClass(' zll_json')) {
+        //console.log(intname)
+        if (lasttr.hasClass('zll_json')) {
+            //console.log('has zll_json')
             name = lasttr.attr('zll_name')
 
             if (name == intname) {
-                $(this).parent().parent().find('tbody').append(address("从", name + "_alias0", "", ""))
+                $(this).parent().parent().find('tbody').append(address("从", name + "_alias0", "", "","new"))
             } else {
                 var em = name.split('alias');
                 newname = intname + "_alias" + String(parseInt(em[em.length - 1]) + 1)
-                $(this).parent().parent().find('tbody').append(address("从", newname, "", ""))
+                $(this).parent().parent().find('tbody').append(address("从", newname, "", "","new"))
             }
         }
-        else
-            $(this).parent().parent().find('tbody').append(address("主", intname, "", ""))
+        else{
+            //console.log('not has zll_json')
+            $(this).parent().parent().find('tbody').append(address("主", intname, "", "","new"))
+        }
     });
 
 
     $(document).on("blur", "[zll-type]", function () {
+        $(this).val(($(this).val().replace(/。/g,'.').replace(/：/g,':')))
         $(this).removeClass('animated tada')
 //            console.log($(this).val())
         if ($(this).val()) {
@@ -1231,16 +1248,17 @@ $(document).ready(function () {
 //                console.log(flag)
             if (flag) {
             } else {
-                $(this).focus()
+                
                 swal({
-                    title: $(this).attr('placeholder') + "格式错误",
-                    text: "请修改" + $(this).attr('placeholder') + "格式"
+                    title: $(this).val() + " 格式错误",
+                    text: "格式为: " + $(this).attr('exg') 
                 });
-                $(this).addClass('animated tada')
+                $(this).focus().select().addClass('animated tada')
             }
         }
 //            console.log(checkINPUT($(this).val()))
     });
+
     $(document).on("blur", "#newpass2,#oldpass,#newpass1", function () {
         oldpass = $("#oldpass").val()
         if (oldpass) {
@@ -1261,7 +1279,16 @@ $(document).ready(function () {
             }
         }
     });
+    $(document).on('focus',".zll_json",function(){
 
+        $(this).addClass('change')
+
+    })   
+    $(document).on('blur',".zll_json",function(){
+
+        $(this).removeClass('change')
+
+    })
     $(document).on("blur","#newpass1,#newpass2",function(){
         var newpwd = $(this).val();  
   
@@ -1278,12 +1305,98 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".gapline-add", function () {
-        $(this).parent().parent().find('tbody').append(gapline())
+        $(this).parent().parent().find('tbody').append(gapline()).find('.rule_name').focus()
     });
     $(document).on("click", ".arp-add", function () {
-        $(this).parent().parent().find('tbody').append(arpline())
+        
+        $(this).parent().parent().find('tbody').append(arpline()).find('.ip').focus()
+        
+
+    });
+    $(document).on("click",".run",function(){
+        if($(this).parents('.ia').length > 0)
+        {
+            mash = 'ia'
+        }
+        else
+        {
+            mash = 'oa'
+        }
+        if($(this).attr('zll-btn') == 'arp')
+        {
+            var arps = $("." + mash + " .arp .zll_json")
+
+
+            var arp_json = []
+            $.each(arps, function (i, val) {
+                var int_tr = $(val)
+                var ip = $.trim(int_tr.find('.ip').val())
+                var mac = $.trim(int_tr.find('.mac').val())
+                var comment = $.trim(int_tr.find('.comment').val())
+
+
+                if (ip && mac) {
+
+                    var arp_info = {
+                        "ip": ip,
+                        "mac": mac,
+                        "comment": comment
+                    };
+    //                    console.log(router_info)
+                    arp_json.push(arp_info)
+                }
+            })
+
+            if(arp_json.length){
+                   swal({
+        title: "提示",
+        text: "确定要这样做吗?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        closeOnConfirm: false,
+        html: true
+    }, function () {
+ 
+ 
+        $.ajax({
+            url: "/gap2py/service/doitquick/",
+            data: {
+                cmd: "arp",
+                content:arp_json,
+                password: "zll",
+                mash:mash,
+                sj:Math.random()
+            },
+            type: "POST",
+            dataType: 'json',
+            error:function(){swal('出问题了!')},
+            success:function(){swal('已经生效!')}
+        });
+
+ 
+
+       
+
+
     });
 
+            }
+            else
+            {
+                     swal("没有配置需要提交的！")
+            
+                
+            }
+
+
+        }
+
+
+
+    })
 
     $(document).on("click", ".hsline-add", function () {
         var check1 = new Array();
@@ -1292,7 +1405,7 @@ $(document).ready(function () {
             check1.push($(m).val())
         })
         if (jQuery.inArray("", check1) > -1) {
-            swal("虚拟IP不能为空!", "添加虚拟IP失败", "warning");
+            swal("虚拟IP不能为空!", "虚拟IP失败", "warning");
             return;
         }
         $.each($(".hs_netmask"), function (s, m) {
@@ -1300,7 +1413,7 @@ $(document).ready(function () {
             check2.push($(m).val())
         })
         if (jQuery.inArray("", check2) > -1) {
-            swal("子网掩码不能为空!", "添加虚拟IP失败", "warning");
+            swal("子网掩码不能为空!", "虚拟IP失败", "warning");
             return;
         }
         $(this).parent().parent().find('tbody').append(hsline())
@@ -1325,4 +1438,5 @@ $(document).ready(function () {
             });
 
     });
+    
 });

@@ -1,8 +1,5 @@
-import json
-import binascii
-import os
-import base64,platform
-if platform.system() == "FreeBSD":
+import json,binascii,os,base64,platform,socket
+if socket.gethostname() == "mnia":
     from Crypto.Cipher import AES
 from pyDes import *
 

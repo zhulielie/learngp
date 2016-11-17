@@ -8211,3 +8211,69 @@ body.md-skin {
     display: none;
   }
 }
+tr .btn-group
+{
+  width: 103px !important;
+}
+.short
+{
+  width: 70px;
+}
+.long
+{
+  width: 125px;
+}
+td{
+
+  padding-left : 2px !important;
+  padding-right: 2px !important;
+/*  margin-left: 8px !important;
+  margin-right: 8px !important;*/
+}
+.blong
+{
+  width: 150px;
+}
+.lshort
+{
+  width: 75px;
+}
+.vshort
+{
+  width: 50px;
+}
+input{
+  padding-left : 2px !important;
+  padding-right: 2px !important;
+}
+.new
+{
+  color:#f8ac59;
+}
+td [type=text]{
+  text-align: center;
+  
+}
+.zll_json td [type=text]{
+  border: none;
+  
+  }
+
+.input-group [type=text]{
+
+  border: 1px solid #e5e6e7 !important}
+.change td [type=text]
+{
+
+  border: 1px solid #e5e6e7 !important}
+  .bgcolor-primary{
+
+
+    background-color:#1ab394;
+  }
+  .bgcolor-warning{
+    background-color: #f8ac59;
+  }
+  .bgcolor-info{
+    background-color: #23c6c8;
+  }

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # 尝试
-import random,logging  
+import random,logging,commands
 
 import gluon.contrib.simplejson as sj
 from zcommon import *
@@ -48,22 +48,23 @@ def get_config():
     return sj.dumps(s)
 
 def get_arp():
+    arps = {'oa':[],'ia':[]}
     user = session.user or ''
     if user:
-        lines = commands.getoutput(something()['cpugetstr'])
-        import commands
-        lines = commands.getoutput("arp -an")
-        a = []
-        i = ['?','[','[','(',')','in','secs','on','at']
-        for l in lines.split('\n'):
- 
-            map(lambda x: x.replace(), mylist)
-            print l
+        i = ['?','[',']','(',')','in','on','at','secds','expires','ifscope']
+
+        for l in commands.getoutput(something()['arp']).split('\n'):
+            x = reduce(lambda x,y:x.replace(y,''),i,l)
+            arps['ia'].append(x.split())
+        
+        for l in verification_ssh(rsetting(), something()['arp']).split('\n'):
+            x = reduce(lambda x,y:x.replace(y,''),i,l)
+            arps['oa'].append(x.split())
 
     else:
         return redirect('/gap2py/login/index')
 
-    return sj.dumps(s)
+    return sj.dumps(arps)
 
 
 def get_status():
@@ -290,7 +291,24 @@ def save():
     else:
         return redirect('/gap2py/login/index')
 
+def gap_time():
+    user = session.get('user', '')
+    data = {'succ': False}
+    if user:
+        import time
+        ISOTIMEFORMAT='%Y-%m-%d %X'
+        data['time'] = time.strftime( ISOTIMEFORMAT, time.localtime() )
+        data['succ'] = True 
+    return sj.dumps(data)
 
+def gap_set_time():
+    user = session.get('user', '')
+    data = {'succ': False}
+    if user:
+        if request.env.request_method == 'POST':
+            time = request.post_vars.time
+            os.system("date %s" % time)
+    return sj.dumps(data)
 def changepass(passw):
     if passw:
         if passw['oldpass'] and passw['newpass1'] and passw['newpass2']:

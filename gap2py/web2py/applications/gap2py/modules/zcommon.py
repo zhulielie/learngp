@@ -1,12 +1,12 @@
 import platform,json
 import time,os
-if platform.system() == "FreeBSD":
+if socket.gethostname() == "mnia":
     import paramiko
 import threading,thread
 from mnLicense import MNLicense
 
 def getplatform():
-    return platform.system() != 'FreeBSD'
+    return socket.gethostname() != 'mnia'
 def dpath():
 
     tp = "/usr/nc-home/gap2py/web2py/applications/gap2py/static/"
@@ -113,10 +113,11 @@ def restart_gap():
 
 
 def license_passed():
-    if platform.system() == "FreeBSD":
+    if socket.gethostname() == "mnia":
         return checkthelicense(getlicense())
     else:
         return True
+        
 def rsetting():
     s = {}
     s['host'] = '2.2.2.2'

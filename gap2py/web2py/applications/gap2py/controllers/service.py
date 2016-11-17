@@ -42,24 +42,25 @@ def gap_stop():
     return sj.dumps({})
 
 
-def gap_time():
-    user = session.get('user', '')
-    data = {'succ': False}
-    if user:
-        import time
-        ISOTIMEFORMAT='%Y-%m-%d %X'
-        data['time'] = time.strftime( ISOTIMEFORMAT, time.localtime() )
-        data['succ'] = True 
-    return sj.dumps(data)
 
-def gap_set_time():
+def doitquick():
     user = session.get('user', '')
-    data = {'succ': False}
     if user:
         if request.env.request_method == 'POST':
-            time = request.post_vars.time
-            os.system("date %s" % time)
-    return sj.dumps(data)
+            cmd = request.post_vars.cmd
+            password = request.post_vars.password
+            mash = request.post_vars.mash
+            if cmd == 'arp':
+                if mash == 'ia':
+                    pass
+                elif mash == 'oa':
+                    pass
+                else:
+                    pass
+    return sj.dumps({})
+
+
+
 
 
 

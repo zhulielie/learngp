@@ -37,8 +37,7 @@
                              </span> <span class="text-muted text-xs block">{{ =username }} <b
                                     class="caret"></b></span> </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="#"
-                                   onclick="$('#oldpass').focus();swal({ title: '修改密码', text: '右下角输入旧密码和新密码' });">修改密码</a>
+                            <li><a href="#changepass">修改密码</a>
                                 <!--<li><a href="mailbox.html">Mailbox</a></li>-->
                             <li class="divider"></li>
                             <li><a href="/gap2py/login/logout/">登出</a></li>
@@ -60,51 +59,39 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">准出授信服务</span><span
+                    <a href="#"><i class="fa fa-arrow-right"></i> <span class="nav-label">准出授信服务</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="#tcpinside">TCP授信访问</a></li>
-                        <li><a href="#ftpinside">FTP授信访问</a></li>
-                        <li><a href="#orainside">ORACLE特别授信访问</a></li>
-                        <li><a href="#udpinside">UDP授信访问</a></li>
+                        <li><a href="#ruleinside">策略配置</a></li>
+            
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">准入授信服务</span><span
+                    <a href="#"><i class="fa fa-arrow-left"></i> <span class="nav-label">准入授信服务</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="#tcpoutside">TCP授信访问</a></li>
-                        <li><a href="#ftpoutside">FTP授信访问</a></li>
-                        <li><a href="#oraoutside">ORACLE特别授信访问</a></li>
-                        <li><a href="#udpoutside">UDP授信访问</a></li>
+                        <li><a href="#ruleoutside">策略配置</a></li>
+     
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">认证管理</span><span
+                    <a href="#"><i class="fa fa-circle"></i> <span class="nav-label">认证管理</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="#authrule">认证规则</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">热备份</span><span
+                    <a href="#"><i class="fa fa-link"></i> <span class="nav-label">热备份</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="#hotbackup">双机热备配置</a></li>
 
                     </ul>
                 </li>
-                                <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">系统升级</span><span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="#loginside">内网机日志</a></li>
-                        <li><a href="#logoutside">外网机日志</a></li>
 
-                    </ul>
-                </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">日志查看</span><span
+                    <a href="#"><i class="fa fa-search"></i> <span class="nav-label">日志查看</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a href="#loginside">内网机日志</a></li>
@@ -112,6 +99,16 @@
 
                     </ul>
                 </li>
+                               <li>
+                    <a href="#"><i class="fa fa-save"></i> <span class="nav-label">其他</span><span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="#updatesys">系统升级</a></li>
+                        <li><a href="#changepass">修改密码</a></li>
+
+                    </ul>
+                </li>
+                
             </ul>
         </div>
     </nav>
@@ -330,7 +327,7 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">路由和默认网关
                                                     <button class="btn btn-primary   router-add" type="button"><i
-                                                            class="fa fa-plus"></i> 添加路由
+                                                            class="fa fa-plus"></i> 路由
                                                     </button>
                                                 </div>
                                                 <div class="panel-body ">
@@ -339,19 +336,13 @@
                                                     <table class="table table-striped  table-condensed ">
                                                         <tbody class="router">
                                                         <tr>
-                                                            <td>默认网关
-                                                            </td>
-                                                            <td><input type="text"
+                                                            <td colspan="4"> <div class="input-group"><div class="input-group-addon">默认网关</div><input type="text"
                                                                        class="form-control defaultgateway"
                                                                        zll-type="ipv4" maxlength="15"
-                                                                       placeholder="IP地址">
+                                                                       placeholder="" exg="192.168.1.1"></div>
                                                             </td>
 
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            
                                                         </tr>
 
 
@@ -369,11 +360,14 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">Arp绑定
                                                     <button class="btn btn-primary   arp-add" type="button"><i
-                                                            class="fa fa-plus"></i> 添加绑定
+                                                            class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button zll-btn="arp" class="btn btn-primary pull-right run" type="button"><i
+                                                            class="fa fa-rocket"></i> 立刻生效
                                                     </button>
                                                 </div>
                                                 <div class="panel-body ">
-                                                    <table class="table table-striped  table-condensed text-center">
+                                                    <table class="table text-center">
                                                         <thead><tr><td></td><td>IP地址</td><td>mac地址</td><td>备注</td><td>操作</td></tr></thead>
                                                         <tbody class="arp">
 
@@ -424,32 +418,55 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">路由和默认网关
                                                     <button class="btn btn-primary   router-add" type="button"><i
-                                                            class="fa fa-plus"></i> 添加路由
+                                                            class="fa fa-plus"></i> 路由
                                                     </button>
                                                 </div>
-                                                <div class="panel-body ">
+                                                <div class="panel-body">
 
 
                                                     <table class="table table-striped  table-condensed ">
                                                         <tbody class="router">
                                                         <tr>
-                                                            <td>默认网关
-                                                            </td>
-                                                            <td><input type="text"
+                                                            <td colspan="4"> <div class="input-group"><div class="input-group-addon">默认网关</div><input type="text"
                                                                        class="form-control defaultgateway"
                                                                        zll-type="ipv4" maxlength="15"
-                                                                       placeholder="IP地址">
+                                                                       placeholder="" exg="192.168.1.1"></div>
                                                             </td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+
+                                                            
                                                         </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                                                        <div class="row ">
+                                        <div class="col-xs-10 col-lg-offset-1">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">Arp绑定
+                                                    <button class="btn btn-primary   arp-add" type="button"><i
+                                                            class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button zll-btn="arp" class="btn btn-primary pull-right run" type="button"><i
+                                                            class="fa fa-rocket"></i> 立刻生效
+                                                    </button>
+                                                </div>
+                                                <div class="panel-body ">
+                                                    <table class="table text-center">
+                                                        <thead><tr><td></td><td>IP地址</td><td>mac地址</td><td>备注</td><td>操作</td></tr></thead>
+                                                        <tbody class="arp">
+
+                                                        
+
+
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -459,11 +476,11 @@
                 </div>
             </div>
         </div>
-        <div class="row OUT_TCP" zll_status="0">
+        <div class="row OUT" zll_status="0">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5 id="tcpinside">准出 - TCP授信访问
+                        <h5 id="ruleinside">准出 - 授信访问
                             <span class="label  pull-right status"></span>
                         </h5>
 
@@ -487,23 +504,26 @@
                         <form class="form-horizontal m-t-md" action="#">
                             <div class="form-group ">
                                 <div class="row ">
-                                    <div class="col-xs-10 col-lg-offset-1 ">
+                                    <div class="col-xs-12 ">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">策略设置
                                                 <button class="btn btn-primary   gapline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加策略
+                                                        class="fa fa-plus"></i> 
                                                 </button>
                                             </div>
                                             <div class="panel-body ">
-                                                <table class="table  table-striped  table-condensed tcpinside">
+                                                <table class="tcpinside text-center">
                                                     <tr>
-                                                        <td></td>
-                                                        <td>名称</td>
-                                                        <td>代理地址</td>
-                                                        <td>端口</td>
-                                                        <td>目标地址</td>
-                                                        <td>端口</td>
-                                                        <td></td>
+                                                        <td class="blong">名称</td>
+                                                        <td class="lshort">协议</td>
+                                                        <td class="long">源地址</td>
+                                                        <td class="long">源MAC</td>
+                                                        <td class="short">源端口</td>
+                                                        <td class="long">代理地址</td>
+                                                        <td class="short">代理端口</td>
+                                                        <td class="long">目标地址</td>
+                                                        <td class="short">目标端口</td>
+                                                        <td class="vshort"></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -517,11 +537,11 @@
             </div>
 
         </div>
-        <div class="row OUT_FTP">
+        <div class="row IN">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5 id="ftpinside">准出 - FTP授信访问
+                        <h5 id="ruleoutside">准入 - TCP授信访问
                             <span class="label  pull-right status"></span>
                         </h5>
 
@@ -545,23 +565,26 @@
                         <form class="form-horizontal m-t-md" action="#">
                             <div class="form-group ">
                                 <div class="row ">
-                                    <div class="col-xs-10 col-lg-offset-1 ">
+                                    <div class="col-xs-12 ">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">策略设置
                                                 <button class="btn btn-primary   gapline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加策略
+                                                        class="fa fa-plus"></i> 
                                                 </button>
                                             </div>
                                             <div class="panel-body ">
-                                                <table class="table  table-striped  table-condensed tcpinside">
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>名称</td>
-                                                        <td>代理地址</td>
-                                                        <td>端口</td>
-                                                        <td>目标地址</td>
-                                                        <td>端口</td>
-                                                        <td></td>
+                                                <table class="tcpinside text-center">
+                                                   <tr>
+                                                        <td class="blong">名称</td>
+                                                        <td class="lshort">协议</td>
+                                                        <td class="long">源地址</td>
+                                                        <td class="long">源MAC</td>
+                                                        <td class="short">源端口</td>
+                                                        <td class="long">代理地址</td>
+                                                        <td class="short">代理端口</td>
+                                                        <td class="long">目标地址</td>
+                                                        <td class="short">目标端口</td>
+                                                        <td class="vshort"></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -575,354 +598,7 @@
             </div>
 
         </div>
-        <div class="row OUT_ORA">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5 id="orainside">准出 - ORACLE特别授信访问
-                            <span class="label  pull-right status"></span>
-                        </h5>
 
-                        <div class="ibox-tools">
-                            <button class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </button>
-                            <button title="启用" href="#" class=" startorstop">
-                                <i class="fa fa-play"></i>
-                            </button>
-
-                            <button title="停用" href="#" class=" startorstop">
-                                <i class="fa fa-stop "></i>
-                            </button>
-
-
-                        </div>
-                    </div>
-
-                    <div class="ibox-content">
-                        <form class="form-horizontal m-t-md" action="#">
-                            <div class="form-group ">
-                                <div class="row ">
-                                    <div class="col-xs-10 col-lg-offset-1 ">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">策略设置
-                                                <button class="btn btn-primary   gapline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加策略
-                                                </button>
-                                            </div>
-                                            <div class="panel-body ">
-                                                <table class="table  table-striped  table-condensed tcpinside">
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>名称</td>
-                                                        <td>代理地址</td>
-                                                        <td>端口</td>
-                                                        <td>目标地址</td>
-                                                        <td>端口</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row OUT_UDP">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5 id="udpinside">准出 - UDP授信访问
-                            <span class="label  pull-right status"></span>
-                        </h5>
-
-                        <div class="ibox-tools">
-                            <button class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </button>
-                            <button title="启用" href="#" class=" startorstop">
-                                <i class="fa fa-play"></i>
-                            </button>
-
-                            <button title="停用" href="#" class=" startorstop">
-                                <i class="fa fa-stop "></i>
-                            </button>
-
-
-                        </div>
-                    </div>
-
-                    <div class="ibox-content">
-                        <form class="form-horizontal m-t-md" action="#">
-                            <div class="form-group ">
-                                <div class="row ">
-                                    <div class="col-xs-10 col-lg-offset-1 ">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">策略设置
-                                                <button class="btn btn-primary   gapline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加策略
-                                                </button>
-                                            </div>
-                                            <div class="panel-body ">
-                                                <table class="table  table-striped  table-condensed tcpinside">
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>名称</td>
-                                                        <td>代理地址</td>
-                                                        <td>端口</td>
-                                                        <td>目标地址</td>
-                                                        <td>端口</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row IN_TCP">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5 id="tcpoutside">准入 - TCP授信访问
-                            <span class="label  pull-right status"></span>
-                        </h5>
-
-                        <div class="ibox-tools">
-                            <button class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </button>
-                            <button title="启用" href="#" class=" startorstop">
-                                <i class="fa fa-play"></i>
-                            </button>
-
-                            <button title="停用" href="#" class=" startorstop">
-                                <i class="fa fa-stop "></i>
-                            </button>
-
-
-                        </div>
-                    </div>
-
-                    <div class="ibox-content">
-                        <form class="form-horizontal m-t-md" action="#">
-                            <div class="form-group ">
-                                <div class="row ">
-                                    <div class="col-xs-10 col-lg-offset-1 ">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">策略设置
-                                                <button class="btn btn-primary   gapline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加策略
-                                                </button>
-                                            </div>
-                                            <div class="panel-body ">
-                                                <table class="table  table-striped  table-condensed tcpinside">
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>名称</td>
-                                                        <td>代理地址</td>
-                                                        <td>端口</td>
-                                                        <td>目标地址</td>
-                                                        <td>端口</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row IN_FTP">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5 id="ftpoutside">准入 - FTP授信访问
-                            <span class="label  pull-right status"></span>
-                        </h5>
-
-                        <div class="ibox-tools">
-                            <button class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </button>
-                            <button title="启用" href="#" class=" startorstop">
-                                <i class="fa fa-play"></i>
-                            </button>
-
-                            <button title="停用" href="#" class=" startorstop">
-                                <i class="fa fa-stop "></i>
-                            </button>
-
-
-                        </div>
-                    </div>
-
-                    <div class="ibox-content">
-                        <form class="form-horizontal m-t-md" action="#">
-                            <div class="form-group ">
-                                <div class="row ">
-                                    <div class="col-xs-10 col-lg-offset-1 ">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">策略设置
-                                                <button class="btn btn-primary   gapline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加策略
-                                                </button>
-                                            </div>
-                                            <div class="panel-body ">
-                                                <table class="table  table-striped  table-condensed tcpinside">
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>名称</td>
-                                                        <td>代理地址</td>
-                                                        <td>端口</td>
-                                                        <td>目标地址</td>
-                                                        <td>端口</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row IN_ORA">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5 id="oraoutside">准入 - ORACLE特别授信访问
-                            <span class="label  pull-right status"></span>
-                        </h5>
-
-                        <div class="ibox-tools">
-                            <button class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </button>
-                            <button title="启用" href="#" class=" startorstop">
-                                <i class="fa fa-play"></i>
-                            </button>
-
-                            <button title="停用" href="#" class=" startorstop">
-                                <i class="fa fa-stop "></i>
-                            </button>
-
-
-                        </div>
-                    </div>
-
-                    <div class="ibox-content">
-                        <form class="form-horizontal m-t-md" action="#">
-                            <div class="form-group ">
-                                <div class="row ">
-                                    <div class="col-xs-10 col-lg-offset-1 ">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">策略设置
-                                                <button class="btn btn-primary   gapline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加策略
-                                                </button>
-                                            </div>
-                                            <div class="panel-body ">
-                                                <table class="table  table-striped  table-condensed tcpinside">
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>名称</td>
-                                                        <td>代理地址</td>
-                                                        <td>端口</td>
-                                                        <td>目标地址</td>
-                                                        <td>端口</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row IN_UDP">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5 id="udpoutside">准入 - UDP授信访问
-                            <span class="label  pull-right status"></span>
-                        </h5>
-
-                        <div class="ibox-tools">
-                            <button class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </button>
-                            <button title="启用" href="#" class=" startorstop">
-                                <i class="fa fa-play"></i>
-                            </button>
-
-                            <button title="停用" href="#" class=" startorstop">
-                                <i class="fa fa-stop "></i>
-                            </button>
-
-
-                        </div>
-                    </div>
-
-                    <div class="ibox-content">
-                        <form class="form-horizontal m-t-md" action="#">
-                            <div class="form-group ">
-                                <div class="row ">
-                                    <div class="col-xs-10 col-lg-offset-1 ">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">策略设置
-                                                <button class="btn btn-primary   gapline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加策略
-                                                </button>
-                                            </div>
-                                            <div class="panel-body ">
-                                                <table class="table  table-striped  table-condensed tcpinside">
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>名称</td>
-                                                        <td>代理地址</td>
-                                                        <td>端口</td>
-                                                        <td>目标地址</td>
-                                                        <td>端口</td>
-                                                        <td></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
         <div class="row oa hs" id="hotbackup">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
@@ -955,7 +631,7 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading">热备份设置
                                                 <button class="btn btn-primary   hsline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加虚拟IP
+                                                        class="fa fa-plus"></i> 虚拟IP
                                                 </button>
                                             </div>
                                             <div class="panel-body ">
@@ -1014,7 +690,7 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading">热备份设置
                                                 <button class="btn btn-primary   hsline-add" type="button"><i
-                                                        class="fa fa-plus"></i> 添加虚拟IP
+                                                        class="fa fa-plus"></i> 虚拟IP
                                                 </button>
                                             </div>
                                             <div class="panel-body ">
@@ -1133,7 +809,7 @@
                 </div>
             </div>
         </div>
-        <div id="authrule" class="wrapper wrapper-content  animated fadeInRight">
+        <div id="updatesys" class="wrapper wrapper-content  animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox">
@@ -1181,30 +857,51 @@
                 </div>
             </div>
         </div>
+         <div id="changepass"class="wrapper wrapper-content  animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>修改密码 <small>新密码必须由 11-25位字母、数字、特殊符号线组成.</small></h5>
+
+                        </div>
+                        <div class="ibox-content">
+                        
+                        
+                      <div class="form-group input-group">
+                      <div class="input-group-addon bgcolor-info"><label title="旧密码" class=" label label-info" for="oldpass">旧密码</label>
+                   </div>
+                    <input type="password" class="form-control" id="oldpass" placeholder="">
+                </div>
+                <div class="form-group input-group">
+                <div class="input-group-addon bgcolor-warning"><label title="新密码" class=" label label-warning" for="newpass1">新密码 </label></div>
+                    <input type="password" class="form-control" id="newpass1"
+                           placeholder="">
+                </div>
+                <div class="form-group input-group">
+<div class="input-group-addon bgcolor-warning"><label title="重复新密码" class=" label label-warning" for="newpass2">重复新密码 </label></div>
+                    
+                    <input type="password" class="form-control" id="newpass2"
+                           placeholder="">
+                </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="footer">
-            <div class="pull-right">
+        <div class="row">
+           
+
+             <div class="pull-right">
                 <a class="btn btn-primary" href="#top">回到顶端</a>
                 <button class="btn btn-primary save">保存</button>
                 <button class="btn btn-warning" onclick="gap_reload()">重启</button>
                 <button class="btn btn-warning" onclick="gap_stop()">关机</button>
             </div>
-            <div class=" pull-right form-inline" style="margin:  0 5px 0 5px">
-                <div class="form-group">
-                    <label for="oldpass">旧密码 </label>
-                    <input type="password" class="form-control" id="oldpass" placeholder="">
-                </div>
-                <div class="form-group">
-                    <label for="newpass1">新密码 </label>
-                    <input type="password" class="form-control" id="newpass1"
-                           placeholder="">
-                </div>
-                <div class="form-group">
-                    <label for="newpass2">重复新密码 </label>
-                    <input type="password" class="form-control" id="newpass2"
-                           placeholder="">
-                </div>
             </div>
-            <div>
+            <div class="text-center">
                 <strong>版权所有</strong> 上海中网网络安全技术有限公司 &copy; 2014-2015
             </div>
         </div>
